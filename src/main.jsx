@@ -191,7 +191,7 @@ useEffect(() => {
   </div>
 
 </section>
-   <section id="projects" className="section wrap"><div className="sectionlabel">04 / SELECTED WORK</div><div className="sectionhead"><h2>Things I've <em>built.</em></h2><p>Real projects, practical features and hands-on full-stack development.</p></div>
+   <section id="projects" className="section wrap"><div className="sectionlabel">02 / SELECTED WORK</div><div className="sectionhead"><h2>Things I've <em>built.</em></h2><p>Real projects, practical features and hands-on full-stack development.</p></div>
     <div className="grid">{projects.map((p,i)=><article className={"project "+(i===0?"featured":"")} key={p.title}><div className="projecttop"><span className="projecticon">{p.icon}</span><span>{p.tag}</span></div><h3>{p.title}</h3><p>{p.desc}</p><div className="chips">{p.tech.map(x=><span key={x}>{x}</span>)}</div><div className="projectlinks">
 
   <a
