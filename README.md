@@ -4,7 +4,7 @@ A modern, responsive developer portfolio built with React.js and Vite to showcas
 
 ## 🌐 Live Portfolio
 
-YOUR-PORTFOLIO-URL
+https://portfolio-alpha-amber-79.vercel.app/
 
 ## 👩‍💻 About Me
 
@@ -113,7 +113,7 @@ An AI-powered application focused on processing user input and providing intelli
 - Render
 
 ## 📁 Project Structure
-
+```
 shruti-portfolio/
 │
 ├── public/
@@ -126,6 +126,7 @@ shruti-portfolio/
 ├── index.html
 ├── package.json
 └── README.md
+```
 
 ## 💻 Run Locally
 
