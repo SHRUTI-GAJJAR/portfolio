@@ -754,6 +754,81 @@ em {
   width: 14px;
 }
 
+/* =========================================================
+   13. CERTIFICATIONS SECTION
+========================================================= */
+
+.certificategrid {
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 18px;
+}
+
+.certificate {
+  border: 1px solid var(--line);
+
+  background: var(--surface);
+
+  border-radius: 12px;
+
+  padding: 27px;
+
+  min-height: 230px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  transition: 0.25s;
+}
+
+.certificate:hover {
+  transform: translateY(-5px);
+
+  border-color: #78856a;
+}
+
+.certificateicon {
+  width: 46px;
+  height: 46px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid var(--line);
+
+  border-radius: 9px;
+
+  font-size: 22px;
+
+  margin-bottom: 22px;
+}
+
+.certificateinfo {
+  flex: 1;
+}
+
+.certificateinfo h3 {
+  font-size: 21px;
+
+  margin: 0 0 7px;
+}
+
+.certificateinfo p {
+  color: var(--muted);
+
+  font-size: 13px;
+
+  margin: 0;
+}
+
+.certificate .secondary {
+  width: fit-content;
+
+  margin-top: 22px;
+}
 
 /* =========================================================
    13. SKILLS SECTION
@@ -986,6 +1061,11 @@ footer {
     grid-template-columns: 1fr 1fr;
   }
 
+  /* ---------- Mobile Certifications ---------- */
+
+  .certificategrid {
+    grid-template-columns: 1fr;
+  }
 
   /* ---------- Mobile Contact ---------- */
 

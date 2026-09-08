@@ -47,6 +47,19 @@ const projects = [
 
 ];
 
+const certificates = [
+  {
+    title: "Full-Stack Development",
+    issuer: "Internshala Trainings",
+    file: "/Full-Stack-Development-Certificate.pdf"
+  },
+  {
+    title: "Internship Training & Job Preparation",
+    issuer: "Internshala Trainings",
+    file: "/Internship-Training-and-Job-Preparation-Certificate.pdf"
+  }
+];
+
 function App(){
  const [dark,setDark]=useState(true),[open,setOpen]=useState(false);
 useEffect(() => {
@@ -255,7 +268,57 @@ useEffect(() => {
 
 </section>
 
-   <section className="cta wrap" id="contact"><div><div className="sectionlabel">04 / CONTACT</div><h2>Let's build something<br/><em>meaningful.</em></h2><p>I'm open to Full-Stack, MERN and Software Development internship opportunities.</p></div><div className="ctabtns"><a className="primary" href="mailto:shrutiujeniya6@gmail.com">Email me <Mail/></a><a className="secondary" href="/Shruti_Ujeniya_Resume-2026.pdf" download>Download resume <Download/></a></div></section>
+<section id="certifications" className="section wrap">
+
+  <div className="sectionlabel">04 / CERTIFICATIONS</div>
+
+  <div className="sectionhead">
+    <h2>
+      Learning that supports my <em>growth.</em>
+    </h2>
+
+    <p>
+      Certifications and professional training that complement
+      my hands-on development experience.
+    </p>
+  </div>
+
+  <div className="certificategrid">
+
+    {certificates.map((certificate) => (
+
+      <article className="certificate" key={certificate.title}>
+
+        <div className="certificateicon">
+          📜
+        </div>
+
+        <div className="certificateinfo">
+
+          <h3>{certificate.title}</h3>
+
+          <p>{certificate.issuer}</p>
+
+        </div>
+
+        <a
+          className="secondary"
+          href={certificate.file}
+          target="_blank"
+          rel="noreferrer"
+        >
+          View Certificate →
+        </a>
+
+      </article>
+
+    ))}
+
+  </div>
+
+</section>
+
+   <section className="cta wrap" id="contact"><div><div className="sectionlabel">05 / CONTACT</div><h2>Let's build something<br/><em>meaningful.</em></h2><p>I'm open to Full-Stack, MERN and Software Development internship opportunities.</p></div><div className="ctabtns"><a className="primary" href="mailto:shrutiujeniya6@gmail.com">Email me <Mail/></a><a className="secondary" href="/Shruti_Ujeniya_Resume-2026.pdf" download>Download resume <Download/></a></div></section>
   </main>
   <footer><div className="wrap foot"><span>© 2026 Shruti Ujeniya</span><span>Designed & built with React</span><div><a href="https://github.com/SHRUTI-GAJJAR"><Github/></a><a href="https://www.linkedin.com/in/shruti-ujeniya-4620b132b/"><Linkedin/></a></div></div></footer>
  </div>
