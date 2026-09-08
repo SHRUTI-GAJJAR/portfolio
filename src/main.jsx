@@ -68,7 +68,7 @@ useEffect(() => {
  const go=id=>{document.getElementById(id)?.scrollIntoView({behavior:"smooth"});setOpen(false)};
  return <div>
   <nav className="nav"><div className="wrap navin"><button className="logo" onClick={()=>go("home")}>Shruti<span>.</span></button>
-   <div className={"links "+(open?"show":"")}><button onClick={()=>go("home")}>Home</button><button onClick={()=>go("about")}>About</button><button onClick={()=>go("projects")}>Projects</button><button onClick={()=>go("skills")}>Skills</button><button onClick={()=>go("contact")}>Contact</button></div>
+   <div className={"links "+(open?"show":"")}><button onClick={()=>go("home")}>Home</button><button onClick={()=>go("about")}>About</button><button onClick={()=>go("projects")}>Projects</button><button onClick={()=>go("skills")}>Skills</button><button onClick={() => go("certifications")}>Certificates</button><button onClick={()=>go("contact")}>Contact</button></div>
    <div className="navactions"><button className="iconbtn" onClick={()=>setDark(!dark)} aria-label="theme">{dark?<Sun/>:<Moon/>}</button><button className="menu" onClick={()=>setOpen(!open)}>{open?<X/>:<Menu/>}</button></div>
   </div></nav>
 
