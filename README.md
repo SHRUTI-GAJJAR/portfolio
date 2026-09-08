@@ -64,6 +64,28 @@ An AI-powered application focused on processing user input and providing intelli
 
 ---
 
+## 📜 Certifications
+
+### Full-Stack Development
+
+Completed a Full-Stack Development training program covering modern web development technologies and practical full-stack development.
+
+**Issuing Organization:** Internshala Trainings
+
+**Certificate:** [View Certificate](./public/Full-Stack-Development-Certificate.pdf)
+
+---
+
+### Internship Training & Job Preparation
+
+Completed professional training focused on internship preparation, job readiness, communication, and professional skills.
+
+**Issuing Organization:** Internshala Trainings
+
+**Certificate:** [View Certificate](./public/Internship-Training-and-Job-Preparation-Certificate.pdf)
+
+---
+
 ## ✨ Portfolio Features
 
 - Modern and responsive design
