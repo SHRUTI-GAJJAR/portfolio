@@ -68,21 +68,21 @@ An AI-powered application focused on processing user input and providing intelli
 
 ### Full-Stack Development
 
-Completed a Full-Stack Development training program covering modern web development technologies and practical full-stack development.
+Completed a Full-Stack Development training program focused on modern web development and practical full-stack skills.
 
 **Issuing Organization:** Internshala Trainings
 
-**Certificate:** [View Certificate](./public/Full-Stack-Development-Certificate.pdf)
+**Certificate:** [View Certificate](https://portfolio-alpha-amber-79.vercel.app//Full-Stack-Development-Certificate.pdf)
 
 ---
 
 ### Internship Training & Job Preparation
 
-Completed professional training focused on internship preparation, job readiness, communication, and professional skills.
+Completed professional training focused on internship preparation, job readiness, communication, and professional development.
 
 **Issuing Organization:** Internshala Trainings
 
-**Certificate:** [View Certificate](./public/Internship-Training-and-Job-Preparation-Certificate.pdf)
+**Certificate:** [View Certificate](https://portfolio-alpha-amber-79.vercel.app//Internship-Training-and-Job-Preparation-Certificate.pdf)
 
 ---
 
