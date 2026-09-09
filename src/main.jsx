@@ -6,15 +6,15 @@ import "./styles.css";
 const projects = [
 
   {
-    title: "Task Tracker",
-    tag: "Full-Stack Web App",
-    desc: "A responsive task management application with CRUD operations, task status management, form validation and a REST API backed by MongoDB.",
-    tech: ["React", "Vite", "Node.js", "Express", "MongoDB"],
-    icon: "✓",
-    live: "https://task-tracker-orpin-six-64.vercel.app",
-    code: "https://github.com/SHRUTI-GAJJAR/Task_Tracker"
+  title: "ArchFlow AI",
+  tag: "AI-Powered Full-Stack Platform",
+  desc: "An AI-powered platform designed to help teams organize project information, communication, and insights in one place through a modern full-stack interface.",
+  tech: ["React", "Node.js", "Express", "MongoDB", "AI"],
+  icon: "✦",
+  live: "https://arch-flow-ai-eosin.vercel.app/",
+  code: "https://github.com/SHRUTI-GAJJAR/ArchFlow-AI"
   },
-
+ 
   {
     title: "Socially",
     tag: "Full-Stack Social Platform",
@@ -23,6 +23,16 @@ const projects = [
     icon: "◉",
     live: "https://3-w-social-post-app-alpha.vercel.app",
     code: "https://github.com/SHRUTI-GAJJAR/3W-Social-Post-App"
+  },
+
+  {
+    title: "Task Tracker",
+    tag: "Full-Stack Web App",
+    desc: "A responsive task management application with CRUD operations, task status management, form validation and a REST API backed by MongoDB.",
+    tech: ["React", "Vite", "Node.js", "Express", "MongoDB"],
+    icon: "✓",
+    live: "https://task-tracker-orpin-six-64.vercel.app",
+    code: "https://github.com/SHRUTI-GAJJAR/Task_Tracker"
   },
 
   {
@@ -43,7 +53,7 @@ const projects = [
     icon: "✦",
     live: "https://resolve-ai-backend.onrender.com/api-docs/",
     code: "https://github.com/SHRUTI-GAJJAR/resolve-ai-backend"
-  }
+  },
 
 ];
 

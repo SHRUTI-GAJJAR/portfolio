@@ -62,6 +62,17 @@ An AI-powered application focused on processing user input and providing intelli
 
 **Source Code:** https://github.com/SHRUTI-GAJJAR/resolve-ai-backend
 
+### 1. ArchFlow AI
+
+An AI-powered platform designed to help teams organize project information, communication, and insights in one place through a modern full-stack interface.
+
+**Tech Stack:** React.js · Node.js · Express.js · MongoDB · AI
+
+**Live Demo:** https://arch-flow-ai-eosin.vercel.app/
+
+**Source Code:** https://github.com/SHRUTI-GAJJAR/ArchFlow-AI
+
+
 ---
 
 ## 📜 Certifications
