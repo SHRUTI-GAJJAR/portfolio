@@ -29,7 +29,7 @@ const projects = [
     title: "DIGITAL HEROES",
     tag: "Full-Stack Web App",
     desc: "Built a full-stack web application for managing charity donations, monthly draws, entries, winners, and user accounts with a responsive, professional interface.",
-    tech: ["React.js, Node.js, Express.js, Supabase, PostgreSQL, REST API, Vercel"],
+    tech: ["React", "Node.js", "Express", "PostgreSQL", "Supabase"],
     icon: "❤",
     live: "https://digital-heroes-ashy-five.vercel.app/",
     code: "https://github.com/SHRUTI-GAJJAR/digital-heroes"
