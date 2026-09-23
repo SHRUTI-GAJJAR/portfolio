@@ -16,15 +16,15 @@ I'm currently looking for Full-Stack / MERN Developer internships and entry-leve
 
 ## 🚀 Featured Projects
 
-### 1. Task Tracker
+### 1. DIGITAL HEROES
 
-A full-stack task management application with CRUD operations, task status management, form validation, and a REST API backed by MongoDB.
+Built a full-stack web application for managing charity donations, monthly draws, entries, winners, and user accounts with a responsive, professional interface.
 
-**Tech Stack:** React.js · Vite · Node.js · Express.js · MongoDB
+**Tech Stack:** React.js · Vite · Node.js · Express.js · PostgreSQL · Supabase
 
-**Live Demo:** https://task-tracker-orpin-six-64.vercel.app
+**Live Demo:** https://digital-heroes-ashy-five.vercel.app/
 
-**Source Code:** https://github.com/SHRUTI-GAJJAR/Task_Tracker
+**Source Code:** https://github.com/SHRUTI-GAJJAR/digital-heroes
 
 ---
 
@@ -62,7 +62,7 @@ An AI-powered application focused on processing user input and providing intelli
 
 **Source Code:** https://github.com/SHRUTI-GAJJAR/resolve-ai-backend
 
-### 1. ArchFlow AI
+### 5. ArchFlow AI
 
 An AI-powered platform designed to help teams organize project information, communication, and insights in one place through a modern full-stack interface.
 

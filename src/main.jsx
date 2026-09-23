@@ -26,19 +26,19 @@ const projects = [
   },
 
   {
-    title: "Task Tracker",
+    title: "DIGITAL HEROES",
     tag: "Full-Stack Web App",
-    desc: "A responsive task management application with CRUD operations, task status management, form validation and a REST API backed by MongoDB.",
-    tech: ["React", "Vite", "Node.js", "Express", "MongoDB"],
-    icon: "✓",
-    live: "https://task-tracker-orpin-six-64.vercel.app",
-    code: "https://github.com/SHRUTI-GAJJAR/Task_Tracker"
+    desc: "Built a full-stack web application for managing charity donations, monthly draws, entries, winners, and user accounts with a responsive, professional interface.",
+    tech: ["React.js, Node.js, Express.js, Supabase, PostgreSQL, REST API, Vercel"],
+    icon: "❤",
+    live: "https://digital-heroes-ashy-five.vercel.app/",
+    code: "https://github.com/SHRUTI-GAJJAR/digital-heroes"
   },
 
   {
     title: "Order Processing",
     tag: "Backend Order Management",
-    desc: "A full-stack order processing application designed to manage products, customer orders and order-related workflows through a structured web interface.",
+    desc: "A Backend order processing application designed to manage products, customer orders and order-related workflows through a structured web interface.",
     tech: ["Node.js", "Express", "MongoDB"],
     icon: "▣",
     live: "https://order-processing-app-nedk.onrender.com/api-docs/",
