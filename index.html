@@ -2,32 +2,78 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0"
-    />
-
-    <meta
-      name="description"
-      content="Shruti Ujeniya — Full-Stack MERN Developer portfolio"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Shruti Ujeniya | Full-Stack Developer</title>
-
-    <link
-      rel="icon"
-      type="image/png"
-      href="/logo.png"
+    <meta
+      name="description"
+      content="Shruti Ujeniya — Full-Stack / MERN Developer building responsive web applications, REST APIs and real-world full-stack projects with React, Node.js, Express and MongoDB."
     />
+    <meta name="author" content="Shruti Ujeniya" />
+    <meta name="theme-color" content="#0a0b0f" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f7f7f9" media="(prefers-color-scheme: light)" />
+    <link rel="canonical" href="https://portfolio-alpha-amber-79.vercel.app/" />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="apple-touch-icon" href="/logo.png" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://portfolio-alpha-amber-79.vercel.app/" />
+    <meta property="og:title" content="Shruti Ujeniya | Full-Stack Developer" />
+    <meta
+      property="og:description"
+      content="Full-Stack / MERN Developer building practical web solutions with React, Node.js, Express and MongoDB."
+    />
+    <meta property="og:image" content="/logo.png" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Shruti Ujeniya | Full-Stack Developer" />
+    <meta
+      name="twitter:description"
+      content="Full-Stack / MERN Developer building practical web solutions with React, Node.js, Express and MongoDB."
+    />
+    <meta name="twitter:image" content="/logo.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&display=swap"
+    />
+
+    <!--
+      Applied before first paint so a returning visitor who chose light mode
+      never sees a flash of the dark theme while React boots.
+      Mirrors the logic in src/hooks/useTheme.js.
+    -->
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem("portfolio-theme");
+          var prefersLight = window.matchMedia(
+            "(prefers-color-scheme: light)"
+          ).matches;
+          var light = stored ? stored === "light" : prefersLight;
+          document.documentElement.dataset.theme = light ? "light" : "dark";
+        } catch (e) {
+          document.documentElement.dataset.theme = "dark";
+        }
+      })();
+    </script>
   </head>
 
   <body>
     <div id="root"></div>
 
-    <script
-      type="module"
-      src="/src/main.jsx"
-    ></script>
+    <noscript>
+      This portfolio needs JavaScript enabled. Reach me at
+      <a href="mailto:shrutiujeniya6@gmail.com">shrutiujeniya6@gmail.com</a>.
+    </noscript>
+
+    <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

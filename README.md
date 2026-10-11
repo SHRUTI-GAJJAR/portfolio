@@ -100,15 +100,16 @@ Completed professional training focused on internship preparation, job readiness
 ## ✨ Portfolio Features
 
 - Modern and responsive design
-- Dark / Light mode
-- Mobile-friendly layout
-- Project showcase
-- Live project links
-- GitHub repository links
+- Dark / Light mode (remembered between visits, follows your OS preference on first visit)
+- Mobile-friendly layout with a slide-down menu
+- Project showcase with live demo and source links
+- Certificate viewer for downloaded credentials
 - Resume download
 - Contact through email
 - LinkedIn profile
-- Smooth navigation
+- Smooth navigation with active-section highlighting
+- Reveal-on-scroll animations that respect `prefers-reduced-motion`
+- Keyboard accessible: skip link, visible focus rings, Escape closes the menu
 
 ## 🛠️ Technologies Used
 
@@ -150,12 +151,38 @@ Completed professional training focused on internship preparation, job readiness
 shruti-portfolio/
 │
 ├── public/
-│   └── Shruti_Ujeniya_Resume-2026.pdf
+│   ├── logo.png
+│   ├── Shruti_Ujeniya_Resume-2026.pdf
+│   ├── Full-Stack-Development-Certificate.pdf
+│   └── Internship-Training-and-Job-Preparation-Certificate.pdf
 │
 ├── src/
-│   ├── main.jsx
-│   └── styles.css
+│   ├── main.jsx               entry point
+│   ├── App.jsx                page composition
+│   ├── styles.css             design system
+│   │
+│   ├── components/            one file per section
+│   │   ├── Navbar.jsx
+│   │   ├── Hero.jsx
+│   │   ├── Stats.jsx
+│   │   ├── About.jsx
+│   │   ├── Projects.jsx
+│   │   ├── Skills.jsx
+│   │   ├── Certifications.jsx
+│   │   ├── Contact.jsx
+│   │   └── Footer.jsx
+│   │
+│   ├── data/                  content, kept out of the markup
+│   │   ├── site.js            profile, nav, socials, stats
+│   │   ├── projects.js        projects + skill groups
+│   │   └── certificates.js
+│   │
+│   └── hooks/
+│       ├── useTheme.js        dark/light, persisted to localStorage
+│       ├── useActiveSection.js scroll-spy for nav highlighting
+│       └── useRevealOnScroll.js one-shot reveal animations
 │
+├── vite.config.js
 ├── index.html
 ├── package.json
 └── README.md

@@ -1,40 +1,66 @@
 /* =========================================================
-   1. FONTS
-========================================================= */
-
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap');
-
-
-/* =========================================================
-   2. THEME VARIABLES
-========================================================= */
+   1. THEME VARIABLES
+   ========================================================= */
 
 :root {
-  --bg: #0b0d0f;
-  --surface: #111417;
-  --text: #f2f0eb;
-  --muted: #9b9c99;
-  --line: #282c2e;
+  /* Cool slate base — neutral, recessive, lets the accent carry the identity. */
+  --bg: #0a0b0f;
+  --surface: #111319;
+  --surface-2: #171a22;
+  --text: #f0f1f4;
+  --muted: #989daa;
+  --line: #23262f;
 
-  --accent: #c9f27a;
-  --accent2: #e7f6b8;
+  --accent: #818cf8;
+  --accent2: #c4b5fd;
+
+  /* Derived tokens — both themes stay in sync automatically. */
+  --accent-soft: color-mix(in srgb, var(--accent) 12%, transparent);
+  --accent-glow: color-mix(in srgb, var(--accent) 32%, transparent);
+
+  /*
+    Dark ink, not white: white on this indigo measures 2.98:1 and fails WCAG
+    AA, while ink on accent gives 6.59:1.
+  */
+  --on-accent: #0a0b0f;
+
+  /* Blue-tinted shadows read as depth rather than grey smudge. */
+  --shadow-sm: 0 1px 2px #00000040;
+  --shadow-md: 0 14px 34px -14px #00000080;
+  --shadow-lg: 0 34px 76px -28px #000000b0;
+
+  --radius: 16px;
+  --radius-sm: 9px;
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Written by useScrollProgress, consumed by the progress bar. */
+  --scroll-progress: 0;
 }
 
 :root[data-theme="light"] {
-  --bg: #f1f0eb;
+  --bg: #f7f7f9;
   --surface: #ffffff;
-  --text: #171917;
-  --muted: #5f625e;
-  --line: #d4d3cd;
+  --surface-2: #fafafb;
+  --text: #14151a;
+  --muted: #5f6470;
+  --line: #e4e5ea;
 
-  --accent: #557d12;
-  --accent2: #315000;
+  /* Darker accent so it holds contrast on white. */
+  --accent: #4f46e5;
+  --accent2: #6d28d9;
+
+  --on-accent: #ffffff;
+
+  --shadow-sm: 0 1px 2px #0f172a12;
+  --shadow-md: 0 14px 30px -16px #0f172a2e;
+  --shadow-lg: 0 34px 64px -30px #0f172a38;
 }
 
 
 /* =========================================================
-   3. GLOBAL / RESET
-========================================================= */
+   2. GLOBAL / RESET
+   ========================================================= */
 
 * {
   box-sizing: border-box;
@@ -42,6 +68,9 @@
 
 html {
   scroll-behavior: smooth;
+
+  /* Anchors land clear of the fixed navbar. */
+  scroll-padding-top: 112px;
 }
 
 body {
@@ -49,7 +78,18 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: "DM Sans", sans-serif;
-  line-height: 1.6;
+  line-height: 1.65;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* The hero orb is wider than some viewports. */
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--on-accent);
 }
 
 a {
@@ -62,6 +102,22 @@ button {
   color: inherit;
 }
 
+img,
+svg {
+  display: block;
+}
+
+/* Avoid orphaned words in headings and awkward line ends in body copy. */
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
 .wrap {
   width: min(1120px, calc(100% - 48px));
   margin: auto;
@@ -69,12 +125,41 @@ button {
 
 
 /* =========================================================
+   3. SCROLL PROGRESS BAR
+   ========================================================= */
+
+.progress {
+  position: fixed;
+  z-index: 60;
+
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: 3px;
+
+  pointer-events: none;
+}
+
+.progressbar {
+  height: 100%;
+
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+
+  box-shadow: 0 0 12px var(--accent-glow);
+
+  transform-origin: left center;
+  transform: scaleX(var(--scroll-progress));
+}
+
+
+/* =========================================================
    4. NAVBAR
-========================================================= */
+   ========================================================= */
 
 .nav {
   position: fixed;
-  z-index: 20;
+  z-index: 50;
 
   top: 16px;
   left: 50%;
@@ -82,18 +167,29 @@ button {
 
   width: min(1120px, calc(100% - 48px));
 
-  background: color-mix(
-    in srgb,
-    var(--surface) 82%,
-    transparent
-  );
+  background: color-mix(in srgb, var(--surface) 72%, transparent);
 
-  backdrop-filter: blur(18px);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
 
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: var(--radius);
 
-  box-shadow: 0 12px 35px #00000025;
+  box-shadow: var(--shadow-md);
+
+  transition:
+    box-shadow 0.35s var(--ease),
+    border-color 0.35s var(--ease),
+    background 0.35s var(--ease);
+}
+
+/* Condense and firm up the bar once the page moves. */
+html.scrolled .nav {
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+
+  border-color: color-mix(in srgb, var(--accent) 22%, var(--line));
+
+  box-shadow: var(--shadow-lg);
 }
 
 .navin {
@@ -108,14 +204,25 @@ button {
 /* ---------- Logo ---------- */
 
 .logo {
-  font-size: 20px;
+  display: flex;
+  align-items: baseline;
+  gap: 1px;
+
+  font-size: 21px;
   font-weight: 700;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.6px;
 
   background: none;
   border: 0;
+  padding: 0;
 
   cursor: pointer;
+
+  transition: transform 0.25s var(--ease);
+}
+
+.logo:hover {
+  transform: translateY(-1px);
 }
 
 .logo span {
@@ -127,35 +234,7 @@ button {
 
 .links {
   display: flex;
-  gap: 8px;
-}
-
-.links button {
-  background: none;
-  border: 0;
-
-  cursor: pointer;
-
-  color: var(--muted);
-
-  font-size: 13px;
-  font-weight: 500;
-
-  padding: 7px 10px;
-
-  border-radius: 6px;
-
-  transition: 0.2s ease;
-}
-
-.links button:hover {
-  color: var(--text);
-
-  background: color-mix(
-    in srgb,
-    var(--text) 6%,
-    transparent
-  );
+  gap: 4px;
 }
 
 
@@ -168,24 +247,31 @@ button {
 
 .iconbtn,
 .menu {
-  border: 1px solid var(--line);
-
-  background: var(--surface);
-
-  border-radius: 50%;
-
   width: 40px;
   height: 40px;
 
   display: grid;
   place-items: center;
 
+  border: 1px solid var(--line);
+
+  background: color-mix(in srgb, var(--surface-2) 70%, transparent);
+
+  border-radius: 50%;
+
   cursor: pointer;
+
+  transition:
+    transform 0.25s var(--ease),
+    border-color 0.25s var(--ease),
+    background 0.25s var(--ease),
+    box-shadow 0.25s var(--ease);
 }
 
 .iconbtn svg,
 .menu svg {
   width: 17px;
+  height: 17px;
 }
 
 .menu {
@@ -195,69 +281,148 @@ button {
 
 /* =========================================================
    5. HERO SECTION
-========================================================= */
+   ========================================================= */
 
 .hero {
-  min-height: 720px;
+  position: relative;
 
-  padding-top: 155px;
+  min-height: 760px;
+
+  padding-top: 175px;
 
   display: grid;
-
   grid-template-columns: 1.05fr 0.95fr;
-
   align-items: center;
-
   gap: 60px;
+}
+
+/* Soft accent wash behind the hero only. */
+.hero::before {
+  content: "";
+
+  position: absolute;
+  z-index: -1;
+
+  top: -140px;
+  left: 50%;
+
+  width: 1000px;
+  height: 620px;
+
+  transform: translateX(-50%);
+
+  background: radial-gradient(
+    ellipse at center,
+    color-mix(in srgb, var(--accent) 11%, transparent),
+    transparent 62%
+  );
+
+  pointer-events: none;
 }
 
 
 /* ---------- Hero Text ---------- */
 
 .eyebrow {
-  font-size: 13px;
-  color: var(--muted);
-
-  display: flex;
+  display: inline-flex;
+  align-items: center;
   gap: 10px;
 
-  align-items: center;
+  margin-bottom: 26px;
 
-  margin-bottom: 22px;
+  padding: 7px 15px 7px 12px;
+
+  border: 1px solid var(--line);
+  border-radius: 999px;
+
+  background: color-mix(in srgb, var(--surface) 60%, transparent);
+
+  backdrop-filter: blur(8px);
+
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+
+  color: var(--muted);
 }
 
 .eyebrow i {
   width: 7px;
   height: 7px;
 
-  background: var(--accent);
-
-  border-radius: 50%;
-
   display: block;
 
-  box-shadow: 0 0 15px var(--accent);
+  background: var(--accent);
+  border-radius: 50%;
+
+  box-shadow: 0 0 0 0 var(--accent-glow);
+
+  animation: pulse 2.6s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 var(--accent-glow);
+  }
+
+  70% {
+    box-shadow: 0 0 0 9px transparent;
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
 }
 
 
 /* ---------- Main Heading ---------- */
 
 h1 {
-  font-size: clamp(50px, 6vw, 82px);
+  margin: 0 0 28px;
 
+  font-size: clamp(48px, 6.2vw, 84px);
+  font-weight: 700;
   line-height: 1.02;
-
-  letter-spacing: -3px;
-
-  margin: 0 0 25px;
+  letter-spacing: -3.2px;
 }
 
+h1 em {
+  position: relative;
+}
+
+/* Gradient accent text, with a plain-colour fallback. */
 em {
   font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-weight: 600;
 
   color: var(--accent);
 
-  font-weight: 600;
+  background: linear-gradient(
+    100deg,
+    var(--accent) 10%,
+    var(--accent2) 90%
+  );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  /* Oversized gradient so it can drift without exposing an edge. */
+  background-size: 220% 100%;
+
+  animation: gradient-drift 9s ease-in-out infinite;
+}
+
+@keyframes gradient-drift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
 }
 
 
@@ -266,102 +431,169 @@ em {
 .lead {
   max-width: 600px;
 
-  color: var(--muted);
+  margin: 0;
 
+  color: var(--muted);
   font-size: 17px;
 }
 
 .lead b {
   color: var(--text);
+  font-weight: 600;
 }
 
 
 /* =========================================================
-   6. HERO BUTTONS
-========================================================= */
+   6. BUTTONS
+   ========================================================= */
 
 .buttons {
   display: flex;
-
+  flex-wrap: wrap;
   gap: 12px;
 
-  margin: 30px 0;
+  margin: 34px 0;
 }
 
 .primary,
 .secondary {
-  display: inline-flex;
+  position: relative;
+  overflow: hidden;
 
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-
   gap: 9px;
 
-  padding: 13px 18px;
+  padding: 14px 22px;
 
-  border-radius: 7px;
+  border-radius: 11px;
 
   font-weight: 600;
+  font-size: 14.5px;
 
-  font-size: 14px;
+  white-space: nowrap;
+
+  transition:
+    transform 0.25s var(--ease),
+    box-shadow 0.25s var(--ease),
+    border-color 0.25s var(--ease),
+    background 0.25s var(--ease);
 }
 
 .primary {
-  background: var(--accent);
+  color: var(--on-accent);
 
-  color: #111;
+  background: linear-gradient(
+    140deg,
+    var(--accent) 0%,
+    var(--accent) 55%,
+    var(--accent2) 100%
+  );
+
+  box-shadow: 0 10px 26px -12px var(--accent-glow);
 }
 
 .secondary {
   border: 1px solid var(--line);
 
-  background: var(--surface);
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+
+  backdrop-filter: blur(8px);
+}
+
+/* Light sweep on hover. */
+.primary::after,
+.secondary::after {
+  content: "";
+
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -140%;
+
+  width: 55%;
+
+  background: linear-gradient(
+    100deg,
+    transparent,
+    #ffffff40,
+    transparent
+  );
+
+  transition: left 0.6s var(--ease);
+}
+
+.primary:hover::after,
+.secondary:hover::after {
+  left: 140%;
 }
 
 .primary svg,
 .secondary svg {
   width: 17px;
+  height: 17px;
+
+  transition: transform 0.25s var(--ease);
 }
 
 
 /* =========================================================
    7. SOCIAL LINKS
-========================================================= */
+   ========================================================= */
 
 .socials {
   display: flex;
-
-  gap: 22px;
-
-  color: var(--muted);
-
-  font-size: 13px;
+  gap: 12px;
 }
 
 .socials a {
   display: flex;
-
   align-items: center;
+  gap: 8px;
 
-  gap: 7px;
+  padding: 9px 15px 9px 13px;
+
+  border: 1px solid var(--line);
+  border-radius: 999px;
+
+  background: color-mix(in srgb, var(--surface) 55%, transparent);
+
+  color: var(--muted);
+
+  font-size: 13px;
+  font-weight: 500;
+
+  transition:
+    color 0.25s var(--ease),
+    border-color 0.25s var(--ease),
+    transform 0.25s var(--ease),
+    background 0.25s var(--ease);
+}
+
+.socials a:hover {
+  color: var(--text);
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  transform: translateY(-2px);
 }
 
 .socials svg {
   width: 16px;
+  height: 16px;
 }
 
 
 /* =========================================================
-   8. HERO RIGHT SIDE / CODE CARD
-========================================================= */
+   8. HERO VISUAL / CODE CARD
+   ========================================================= */
 
 .heroVisual {
-  height: 400px;
-
   position: relative;
 
-  display: grid;
+  height: 420px;
 
+  display: grid;
   place-items: center;
 }
 
@@ -369,60 +601,149 @@ em {
 /* ---------- Background Orb ---------- */
 
 .orb {
-  width: 330px;
-  height: 330px;
+  position: absolute;
+
+  width: 340px;
+  height: 340px;
 
   border-radius: 50%;
 
   background:
     radial-gradient(
       circle at 35% 30%,
-      #dfff9e,
-      transparent 35%
+      #dcd9ff,
+      transparent 38%
     ),
     radial-gradient(
       circle,
-      #8caf45,
-      #263414 65%,
+      #6366f1,
+      #1e1b4b 65%,
       transparent 66%
     );
 
-  filter: blur(1px);
+  filter: blur(2px);
 
-  opacity: 0.72;
+  opacity: 0.6;
 
-  box-shadow: 0 0 100px #9ecb4b33;
+  box-shadow: 0 0 110px var(--accent-glow);
+
+  animation:
+    float 9s ease-in-out infinite,
+    orb-breathe 6s ease-in-out infinite;
+}
+
+/* Slow opacity pulse keeps the glow alive without distracting. */
+@keyframes orb-breathe {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+
+  50% {
+    opacity: 0.75;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    transform: translateY(-16px) scale(1.04);
+  }
 }
 
 
 /* ---------- Code Card ---------- */
 
 .codecard {
-  position: absolute;
+  position: relative;
+  z-index: 1;
 
-  width: min(450px, 100%);
+  width: min(460px, 100%);
 
-  background: #101416e8;
+  padding: 22px 24px 24px;
 
-  border: 1px solid #ffffff18;
+  background: color-mix(in srgb, #0f1117 92%, transparent);
 
-  border-radius: 14px;
+  border: 1px solid #ffffff1a;
 
-  padding: 24px;
+  border-radius: var(--radius);
 
-  box-shadow: 0 25px 70px #0009;
+  box-shadow: var(--shadow-lg);
 
   transform: rotate(-2deg);
 
-  backdrop-filter: blur(15px);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  transition: transform 0.5s var(--ease);
+}
+
+.codecard:hover {
+  transform: rotate(0deg) translateY(-4px);
+}
+
+/* A soft light sweeps across the card on hover. */
+.codecard::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(
+    115deg,
+    transparent 35%,
+    #ffffff12 50%,
+    transparent 65%
+  );
+
+  background-size: 260% 100%;
+  background-position: 180% 0;
+
+  opacity: 0;
+  pointer-events: none;
+
+  border-radius: inherit;
+
+  transition:
+    background-position 0.9s var(--ease),
+    opacity 0.4s var(--ease);
+}
+
+.codecard:hover::after {
+  background-position: -80% 0;
+  opacity: 1;
+}
+
+/* Accent hairline along the top edge. */
+.codecard::before {
+  content: "";
+
+  position: absolute;
+  top: -1px;
+  left: 18%;
+  right: 18%;
+
+  height: 1px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--accent),
+    transparent
+  );
+
+  opacity: 0.7;
 }
 
 
-/* ---------- Code Card Dots ---------- */
+/* ---------- Window Dots ---------- */
 
 .dots {
   display: flex;
-
   gap: 6px;
 
   margin-bottom: 18px;
@@ -434,7 +755,19 @@ em {
 
   border-radius: 50%;
 
-  background: #777;
+  background: #ffffff24;
+}
+
+.dots i:first-child {
+  background: #ff5f57;
+}
+
+.dots i:nth-child(2) {
+  background: #febc2e;
+}
+
+.dots i:last-child {
+  background: #28c840;
 }
 
 
@@ -443,169 +776,364 @@ em {
 .codecard pre {
   margin: 0;
 
-  color: #dce5d4;
+  overflow-x: auto;
+
+  color: #d7dae7;
 
   font:
-    13px/1.8
+    13px/1.85
     ui-monospace,
     SFMono-Regular,
     Consolas,
     monospace;
 
-  white-space: pre-wrap;
+  white-space: pre;
+}
+
+.t-key {
+  color: #c792ea;
+}
+
+.t-var {
+  color: #82aaff;
+}
+
+.t-prop {
+  color: #7fdbca;
+}
+
+.t-str {
+  color: #e5c07b;
 }
 
 
-/* ---------- Code Card Status ---------- */
+/* ---------- Status ---------- */
 
 .status {
-  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  margin-top: 20px;
+  padding-top: 16px;
+
+  border-top: 1px solid #ffffff12;
 
   color: var(--accent);
 
-  margin-top: 18px;
+  font-size: 11.5px;
+}
+
+.status i {
+  width: 6px;
+  height: 6px;
+
+  display: block;
+
+  background: var(--accent);
+  border-radius: 50%;
+
+  animation: pulse 2.6s infinite;
+}
+
+
+/* =========================================================
+   8b. TECH MARQUEE
+   ========================================================= */
+
+.marquee {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  margin-top: 40px;
+  padding: 20px 0;
+
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+
+  overflow: hidden;
+
+  /* Fade the strip out at both edges instead of cutting it off. */
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 12%,
+    #000 88%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 12%,
+    #000 88%,
+    transparent
+  );
+}
+
+.marqueetrack {
+  display: flex;
+  flex-shrink: 0;
+  gap: 0;
+
+  min-width: 100%;
+
+  animation: scroll-x 42s linear infinite;
+
+  will-change: transform;
+}
+
+.marquee:hover .marqueetrack {
+  animation-play-state: paused;
+}
+
+.marqueetrack ul {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 42px;
+
+  padding: 0 21px;
+
+  list-style: none;
+  margin: 0;
+}
+
+.marqueetrack li {
+  display: flex;
+  align-items: center;
+  gap: 42px;
+
+  color: var(--muted);
+
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+
+.marqueetrack li svg {
+  width: 13px;
+  height: 13px;
+
+  color: var(--accent);
+  opacity: 0.6;
+}
+
+@keyframes scroll-x {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+
+/* =========================================================
+   8c. CURSOR SPOTLIGHT
+   ========================================================= */
+
+/*
+  usePointerSpotlight writes --mx/--my as the cursor position within the
+  element. Elements without a hover state fall back to a centred glow.
+*/
+.spotlight::before {
+  content: "";
+
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+
+  background: radial-gradient(
+    380px circle at var(--mx, 50%) var(--my, 50%),
+    color-mix(in srgb, var(--accent) 16%, transparent),
+    transparent 62%
+  );
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  transition: opacity 0.4s var(--ease);
+}
+
+.spotlight:hover::before {
+  opacity: 1;
+}
+
+/* Content sits above the spotlight layer. */
+.spotlight > * {
+  position: relative;
+  z-index: 1;
 }
 
 
 /* =========================================================
    9. STATS SECTION
-========================================================= */
+   ========================================================= */
 
 .stats {
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
+  position: relative;
 
   display: grid;
-
   grid-template-columns: repeat(4, 1fr);
 
-  padding: 26px 0;
+  padding: 30px 0;
+
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
 }
 
 .stats div {
   display: flex;
-
   flex-direction: column;
-
-  gap: 2px;
+  gap: 4px;
 
   padding-left: 26px;
 
   border-left: 1px solid var(--line);
+
+  transition: transform 0.3s var(--ease);
+}
+
+.stats div:hover {
+  transform: translateY(-3px);
 }
 
 .stats div:first-child {
   border: 0;
-
   padding-left: 0;
 }
 
 .stats strong {
-  font-size: 23px;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.8px;
 }
 
 .stats span {
   font-size: 12px;
-
   color: var(--muted);
 }
 
 
 /* =========================================================
    10. GENERAL SECTION
-========================================================= */
+   ========================================================= */
 
 .section {
-  padding-top: 130px;
+  padding-top: 140px;
 }
 
 .sectionlabel {
-  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
 
-  letter-spacing: 2px;
+  margin-bottom: 30px;
+
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
 
   color: var(--muted);
+}
 
-  margin-bottom: 28px;
+/* Accent rule that trails the label. */
+.sectionlabel::after {
+  content: "";
+
+  flex: 1;
+  height: 1px;
+
+  background: linear-gradient(90deg, var(--line), transparent);
 }
 
 
-/* =========================================================
-   11. ABOUT SECTION
-========================================================= */
 
-.two {
-  display: grid;
 
-  grid-template-columns: 1fr 1fr;
-
-  gap: 100px;
-}
+/* ---------- Section Heading ---------- */
 
 .two h2,
 .sectionhead h2,
 .cta h2 {
-  font-size: 48px;
-
-  line-height: 1.08;
-
-  letter-spacing: -1.8px;
-
   margin: 0;
+
+  font-size: clamp(34px, 4.4vw, 50px);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -2px;
 }
 
 .two p,
 .sectionhead p,
 .cta p {
   color: var(--muted);
-
-  font-size: 15px;
+  font-size: 15.5px;
 }
 
 
-/* ---------- About Tags ---------- */
+/* =========================================================
+   11. ABOUT SECTION
+   ========================================================= */
+
+.two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 100px;
+}
+
+
+/* ---------- Tag Pills ---------- */
 
 .mini {
   display: flex;
-
   flex-wrap: wrap;
-
   gap: 8px;
 
-  margin-top: 25px;
+  margin-top: 28px;
 }
 
 .mini span,
 .chips span {
+  padding: 6px 11px;
+
   border: 1px solid var(--line);
+  border-radius: 999px;
 
-  padding: 6px 9px;
-
-  border-radius: 5px;
+  background: color-mix(in srgb, var(--surface) 45%, transparent);
 
   color: var(--muted);
+  font-size: 11.5px;
+  font-weight: 500;
 
-  font-size: 11px;
+  transition:
+    color 0.25s var(--ease),
+    border-color 0.25s var(--ease);
+}
+
+.mini span:hover,
+.chips span:hover {
+  color: var(--text);
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
 }
 
 
 /* =========================================================
    12. PROJECTS SECTION
-========================================================= */
+   ========================================================= */
 
 .sectionhead {
   display: flex;
-
   align-items: end;
-
   justify-content: space-between;
+  gap: 30px;
 
-  margin-bottom: 35px;
+  margin-bottom: 40px;
 }
 
 .sectionhead p {
-  max-width: 330px;
-
+  max-width: 340px;
   margin: 0;
 }
 
@@ -614,37 +1142,83 @@ em {
 
 .grid {
   display: grid;
-
   grid-template-columns: repeat(2, 1fr);
-
-  gap: 18px;
+  gap: 20px;
 }
 
 
 /* ---------- Project Card ---------- */
 
 .project {
+  position: relative;
+  isolation: isolate;
+
+  display: flex;
+  flex-direction: column;
+
+  min-height: 350px;
+  padding: 30px;
+
   border: 1px solid var(--line);
+  border-radius: var(--radius);
 
   background: var(--surface);
 
-  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
 
-  padding: 27px;
+  overflow: hidden;
 
-  min-height: 350px;
+  transition:
+    transform 0.35s var(--ease),
+    box-shadow 0.35s var(--ease),
+    border-color 0.35s var(--ease);
+}
 
-  display: flex;
+/*
+  Accent border drawn with a masked gradient border so the fill stays clean.
+  The ::after layer also carries the card's hover shadow.
+*/
+.project::after,
+.certificate::after {
+  content: "";
 
-  flex-direction: column;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
 
-  transition: 0.25s;
+  padding: 1px;
+  border-radius: inherit;
+
+  background: linear-gradient(
+    140deg,
+    var(--accent),
+    color-mix(in srgb, var(--accent) 15%, transparent) 45%,
+    transparent 75%
+  );
+
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+
+  opacity: 0;
+  pointer-events: none;
+
+  transition: opacity 0.35s var(--ease);
+}
+
+.project:hover::after,
+.certificate:hover::after {
+  opacity: 1;
 }
 
 .project:hover {
-  transform: translateY(-5px);
-
-  border-color: #78856a;
+  border-color: transparent;
+  box-shadow: var(--shadow-lg);
 }
 
 
@@ -653,18 +1227,15 @@ em {
 .project.featured {
   grid-column: span 2;
 
-  min-height: 320px;
+  min-height: 330px;
 
   background:
-    linear-gradient(
-      135deg,
-      var(--surface),
-      color-mix(
-        in srgb,
-        var(--accent) 5%,
-        var(--surface)
-      )
-    );
+    radial-gradient(
+      900px 300px at 0% 0%,
+      color-mix(in srgb, var(--accent) 13%, transparent),
+      transparent 60%
+    ),
+    var(--surface);
 }
 
 
@@ -672,56 +1243,65 @@ em {
 
 .projecttop {
   display: flex;
-
   align-items: center;
-
   justify-content: space-between;
+  gap: 16px;
 
   color: var(--muted);
-
   font-size: 11px;
-
+  font-weight: 600;
   text-transform: uppercase;
-
-  letter-spacing: 1px;
+  letter-spacing: 1.1px;
 }
 
 .projecticon {
-  font-size: 30px;
+  display: grid;
+  place-items: center;
 
+  width: 46px;
+  height: 46px;
+
+  border: 1px solid var(--line);
+  border-radius: 12px;
+
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+
+  font-size: 21px;
   text-transform: none;
-
   letter-spacing: 0;
+
+  transition:
+    background 0.35s var(--ease),
+    transform 0.35s var(--ease);
+}
+
+.project:hover .projecticon {
+  background: var(--accent-soft);
+  transform: scale(1.06) rotate(-4deg);
 }
 
 
-/* ---------- Project Title ---------- */
+/* ---------- Project Body ---------- */
 
 .project h3 {
-  font-size: 27px;
+  margin: 26px 0 9px;
 
-  margin: 25px 0 7px;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.7px;
 }
-
-
-/* ---------- Project Description ---------- */
 
 .project p {
+  max-width: 660px;
+  margin: 0;
+
   color: var(--muted);
-
-  max-width: 650px;
-
-  font-size: 14px;
+  font-size: 14.5px;
 }
-
-
-/* ---------- Project Technologies ---------- */
 
 .chips {
   display: flex;
-
   flex-wrap: wrap;
-
   gap: 6px;
 
   margin-top: auto;
@@ -732,78 +1312,106 @@ em {
 
 .projectlinks {
   display: flex;
-
-  gap: 20px;
+  gap: 10px;
 
   margin-top: 24px;
 
-  font-size: 12px;
-
+  font-size: 12.5px;
   font-weight: 600;
 }
 
 .projectlinks a {
   display: flex;
-
-  gap: 6px;
-
   align-items: center;
+  gap: 7px;
+
+  padding: 9px 14px;
+
+  border: 1px solid var(--line);
+  border-radius: 999px;
+
+  transition:
+    color 0.25s var(--ease),
+    border-color 0.25s var(--ease),
+    background 0.25s var(--ease);
+}
+
+.projectlinks a:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-soft);
 }
 
 .projectlinks svg {
   width: 14px;
+  height: 14px;
 }
+
 
 /* =========================================================
    13. CERTIFICATIONS SECTION
-========================================================= */
+   ========================================================= */
 
 .certificategrid {
   display: grid;
-
   grid-template-columns: repeat(2, 1fr);
-
-  gap: 18px;
+  gap: 20px;
 }
 
 .certificate {
+  position: relative;
+  isolation: isolate;
+
+  display: flex;
+  flex-direction: column;
+
+  min-height: 240px;
+  padding: 30px;
+
   border: 1px solid var(--line);
+  border-radius: var(--radius);
 
   background: var(--surface);
 
-  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
 
-  padding: 27px;
+  overflow: hidden;
 
-  min-height: 230px;
-
-  display: flex;
-
-  flex-direction: column;
-
-  transition: 0.25s;
+  transition:
+    transform 0.35s var(--ease),
+    box-shadow 0.35s var(--ease),
+    border-color 0.35s var(--ease);
 }
 
 .certificate:hover {
-  transform: translateY(-5px);
-
-  border-color: #78856a;
+  border-color: transparent;
+  box-shadow: var(--shadow-lg);
 }
 
 .certificateicon {
-  width: 46px;
-  height: 46px;
-
   display: grid;
   place-items: center;
 
+  width: 50px;
+  height: 50px;
+
+  margin-bottom: 24px;
+
   border: 1px solid var(--line);
+  border-radius: 13px;
 
-  border-radius: 9px;
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
 
-  font-size: 22px;
+  font-size: 23px;
 
-  margin-bottom: 22px;
+  transition:
+    background 0.35s var(--ease),
+    transform 0.35s var(--ease);
+}
+
+.certificate:hover .certificateicon {
+  background: var(--accent-soft);
+  transform: translateY(-3px);
 }
 
 .certificateinfo {
@@ -811,152 +1419,419 @@ em {
 }
 
 .certificateinfo h3 {
-  font-size: 21px;
+  margin: 0 0 8px;
 
-  margin: 0 0 7px;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
 }
 
 .certificateinfo p {
-  color: var(--muted);
-
-  font-size: 13px;
-
   margin: 0;
+
+  color: var(--muted);
+  font-size: 13.5px;
 }
 
 .certificate .secondary {
   width: fit-content;
-
-  margin-top: 22px;
+  margin-top: 24px;
 }
 
+
 /* =========================================================
-   13. SKILLS SECTION
-========================================================= */
+   14. SKILLS SECTION
+   ========================================================= */
 
 .skillgrid {
   display: grid;
-
   grid-template-columns: repeat(4, 1fr);
-
-  border-top: 1px solid var(--line);
-
-  border-left: 1px solid var(--line);
-}
-
-.skill {
-  padding: 27px;
-
-  border-right: 1px solid var(--line);
-
-  border-bottom: 1px solid var(--line);
-
-  min-height: 190px;
-}
-
-.skill > svg {
-  color: var(--accent);
-
-  width: 22px;
-}
-
-.skill h3 {
-  font-size: 17px;
-
-  margin: 22px 0 8px;
-}
-
-.skill p {
-  color: var(--muted);
-
-  font-size: 12px;
-}
-
-
-/* =========================================================
-   14. CONTACT / CTA SECTION
-========================================================= */
-
-.cta {
-  margin-top: 130px;
-
-  margin-bottom: 110px;
-
-  padding: 55px;
-
-  border: 1px solid var(--line);
-
-  border-radius: 14px;
-
-  background: var(--surface);
-
-  display: flex;
-
-  align-items: end;
-
-  justify-content: space-between;
-
-  gap: 30px;
-}
-
-.cta h2 {
-  font-size: 55px;
-}
-
-.ctabtns {
-  display: flex;
-
-  gap: 10px;
-}
-
-.ctabtns a {
-  white-space: nowrap;
-}
-
-
-/* =========================================================
-   15. FOOTER
-========================================================= */
-
-footer {
-  border-top: 1px solid var(--line);
-
-  padding: 25px 0;
-}
-
-.foot {
-  display: flex;
-
-  align-items: center;
-
-  justify-content: space-between;
-
-  color: var(--muted);
-
-  font-size: 11px;
-}
-
-.foot div {
-  display: flex;
 
   gap: 14px;
 }
 
-.foot svg {
-  width: 16px;
+.skill {
+  position: relative;
+
+  min-height: 200px;
+  padding: 28px;
+
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+
+  overflow: hidden;
+
+  transition:
+    transform 0.35s var(--ease),
+    border-color 0.35s var(--ease),
+    background 0.35s var(--ease),
+    box-shadow 0.35s var(--ease);
+}
+
+/* Accent wash on hover. The spotlight layer supplies the base glow. */
+.skill {
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+}
+
+.skill:hover {
+  transform: translateY(-5px);
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--line));
+  box-shadow: var(--shadow-md);
+}
+
+.skill > * {
+  position: relative;
+  z-index: 1;
+}
+
+.skill > svg {
+  width: 22px;
+  height: 22px;
+
+  color: var(--accent);
+
+  transition: transform 0.35s var(--ease);
+}
+
+.skill:hover > svg {
+  transform: translateY(-3px);
+}
+
+.skill h3 {
+  margin: 22px 0 10px;
+
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.skill p {
+  margin: 0;
+
+  color: var(--muted);
+  font-size: 12.5px;
+  line-height: 1.75;
 }
 
 
 /* =========================================================
-   16. TABLET / MOBILE — 800px
-========================================================= */
+   15. CONTACT / CTA SECTION
+   ========================================================= */
+
+.cta {
+  position: relative;
+  isolation: isolate;
+
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 34px;
+
+  margin-top: 150px;
+  margin-bottom: 120px;
+  padding: 62px;
+
+  border: 1px solid var(--line);
+  border-radius: 22px;
+
+  background:
+    radial-gradient(
+      700px 260px at 100% 0%,
+      color-mix(in srgb, var(--accent) 13%, transparent),
+      transparent 62%
+    ),
+    var(--surface);
+
+  box-shadow: var(--shadow-md);
+
+  overflow: hidden;
+}
+
+.cta h2 {
+  font-size: clamp(38px, 5vw, 58px);
+}
+
+.ctabtns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 11px;
+}
+
+
+/* =========================================================
+   16. FOOTER
+   ========================================================= */
+
+footer {
+  border-top: 1px solid var(--line);
+
+  padding: 28px 0;
+}
+
+.foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  color: var(--muted);
+  font-size: 11.5px;
+}
+
+.foot div {
+  display: flex;
+  gap: 10px;
+}
+
+.foot a {
+  display: grid;
+  place-items: center;
+
+  width: 36px;
+  height: 36px;
+
+  border: 1px solid var(--line);
+  border-radius: 50%;
+
+  transition:
+    color 0.25s var(--ease),
+    border-color 0.25s var(--ease),
+    transform 0.25s var(--ease),
+    background 0.25s var(--ease);
+}
+
+.foot a:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  transform: translateY(-2px);
+}
+
+.foot svg {
+  width: 15px;
+  height: 15px;
+}
+
+
+/* =========================================================
+   17. NAV LINKS + ACTIVE STATE
+   ========================================================= */
+
+.links a {
+  position: relative;
+
+  padding: 8px 13px;
+
+  border-radius: 999px;
+
+  color: var(--muted);
+
+  font-size: 13.5px;
+  font-weight: 500;
+
+  transition:
+    color 0.25s var(--ease),
+    background 0.25s var(--ease);
+}
+
+.links a:hover {
+  color: var(--text);
+  background: color-mix(in srgb, var(--text) 7%, transparent);
+}
+
+.links a.active {
+  color: var(--text);
+  background: var(--accent-soft);
+}
+
+
+/* =========================================================
+   18. MICRO-INTERACTIONS
+   ========================================================= */
+
+.iconbtn:hover,
+.menu:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  transform: translateY(-2px);
+}
+
+.iconbtn:active,
+.menu:active {
+  transform: translateY(0);
+}
+
+.primary:hover,
+.secondary:hover {
+  transform: translateY(-2px);
+}
+
+.primary:hover {
+  box-shadow: 0 18px 38px -14px var(--accent-glow);
+}
+
+.secondary:hover {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--surface-2) 90%, transparent);
+  box-shadow: var(--shadow-md);
+}
+
+.primary:hover svg,
+.secondary:hover svg {
+  transform: translate(2px, -2px);
+}
+
+/*
+  Cards use the shared reveal transform, so the hover lift needs to win on
+  specificity and drop the stagger delay to stay snappy.
+*/
+.project.reveal:hover,
+.certificate.reveal:hover,
+.skill.reveal:hover {
+  transform: translateY(-5px);
+  transition-delay: 0ms;
+}
+
+
+/* =========================================================
+   19. ACCESSIBILITY
+   ========================================================= */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: fixed;
+  z-index: 100;
+
+  top: -100px;
+  left: 16px;
+
+  padding: 13px 20px;
+
+  background: var(--accent);
+  color: var(--on-accent);
+
+  font-size: 14px;
+  font-weight: 600;
+
+  border-radius: 10px;
+
+  box-shadow: var(--shadow-md);
+
+  transition: top 0.25s var(--ease);
+}
+
+.skip-link:focus {
+  top: 16px;
+}
+
+/* Visible focus for keyboard users, hidden for mouse users. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+
+/* =========================================================
+   20. REVEAL ON SCROLL
+   ========================================================= */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+
+  transition:
+    opacity 0.7s var(--ease),
+    transform 0.7s var(--ease);
+
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* List resets from the semantic markup pass. */
+.socials,
+.mini,
+.chips {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* With motion disabled, everything is simply shown. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  /* Every looping animation stops. */
+  .orb,
+  .eyebrow i,
+  .status i,
+  em,
+  .marqueetrack {
+    animation: none !important;
+  }
+
+  /* The strip still scrolls for keyboard users, just without the
+     continuous loop. */
+  .marquee {
+    overflow-x: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+
+/* =========================================================
+   21. TABLET / MOBILE
+   ========================================================= */
+
+@media (max-width: 1000px) {
+  .hero {
+    grid-template-columns: 1fr 0.9fr;
+    gap: 40px;
+  }
+
+  .two {
+    gap: 60px;
+  }
+}
 
 @media (max-width: 800px) {
-
   .wrap {
     width: min(100% - 32px, 600px);
   }
-
 
   /* ---------- Mobile Navbar ---------- */
 
@@ -969,32 +1844,38 @@ footer {
 
     position: absolute;
 
-    top: 72px;
+    top: calc(100% + 10px);
+    left: 0;
+    right: 0;
 
-    left: 16px;
-    right: 16px;
+    padding: 12px;
 
-    padding: 20px;
+    background: color-mix(in srgb, var(--surface) 96%, transparent);
 
-    background: var(--surface);
+    backdrop-filter: blur(20px);
 
     border: 1px solid var(--line);
+    border-radius: var(--radius);
 
-    border-radius: 10px;
+    box-shadow: var(--shadow-lg);
 
     flex-direction: column;
-
-    gap: 18px;
+    gap: 3px;
   }
 
   .links.show {
     display: flex;
   }
 
+  .links a {
+    padding: 12px 14px;
+
+    font-size: 14.5px;
+  }
+
   .menu {
     display: grid;
   }
-
 
   /* ---------- Mobile Hero ---------- */
 
@@ -1003,47 +1884,62 @@ footer {
 
     min-height: auto;
 
-    padding-top: 130px;
+    padding-top: 150px;
+    padding-bottom: 90px;
+  }
 
-    padding-bottom: 80px;
+  .hero::before {
+    top: -80px;
+    width: 700px;
+    height: 520px;
   }
 
   .heroVisual {
-    height: 330px;
+    height: 340px;
   }
 
+  .orb {
+    width: 270px;
+    height: 270px;
+  }
 
   /* ---------- Mobile Stats ---------- */
 
   .stats {
     grid-template-columns: repeat(2, 1fr);
-
-    gap: 20px;
+    gap: 24px;
   }
 
   .stats div {
-    padding-left: 15px;
+    padding-left: 18px;
   }
 
+  .stats div:nth-child(odd) {
+    border-left: 0;
+    padding-left: 0;
+  }
 
-  /* ---------- Mobile About ---------- */
+  /* ---------- Mobile Sections ---------- */
+
+  .section {
+    padding-top: 110px;
+  }
+
+  .sectionlabel::after {
+    display: none;
+  }
 
   .two {
     grid-template-columns: 1fr;
-
-    gap: 20px;
+    gap: 26px;
   }
-
-  .two h2,
-  .sectionhead h2 {
-    font-size: 38px;
-  }
-
-
-  /* ---------- Mobile Projects ---------- */
 
   .sectionhead {
     display: block;
+  }
+
+  .sectionhead p {
+    margin-top: 14px;
   }
 
   .grid {
@@ -1054,14 +1950,9 @@ footer {
     grid-column: span 1;
   }
 
-
-  /* ---------- Mobile Skills ---------- */
-
   .skillgrid {
     grid-template-columns: 1fr 1fr;
   }
-
-  /* ---------- Mobile Certifications ---------- */
 
   .certificategrid {
     grid-template-columns: 1fr;
@@ -1072,83 +1963,71 @@ footer {
   .cta {
     display: block;
 
-    padding: 30px;
+    margin-top: 100px;
+    margin-bottom: 90px;
+    padding: 34px;
 
-    margin-top: 90px;
-  }
-
-  .cta h2 {
-    font-size: 40px;
+    border-radius: var(--radius);
   }
 
   .ctabtns {
-    margin-top: 25px;
-
-    flex-wrap: wrap;
+    margin-top: 28px;
   }
-
 
   /* ---------- Mobile Footer ---------- */
 
   .foot {
-    gap: 15px;
-
+    gap: 16px;
     flex-wrap: wrap;
   }
 
-
-  /* ---------- Mobile Heading ---------- */
+  /* ---------- Mobile Headings ---------- */
 
   h1 {
-    letter-spacing: -2px;
-  }
-
-  .codecard {
-    font-size: 11px;
+    letter-spacing: -2.2px;
   }
 }
 
-
-/* =========================================================
-   17. SMALL MOBILE — 500px
-========================================================= */
-
 @media (max-width: 500px) {
-
   .skillgrid {
     grid-template-columns: 1fr;
   }
 
-  .stats {
-    grid-template-columns: 1fr 1fr;
-  }
-
   .stats strong {
-    font-size: 19px;
+    font-size: 21px;
   }
 
   .heroVisual {
-    height: 280px;
+    height: 300px;
   }
 
   .orb {
-    width: 240px;
-    height: 240px;
+    width: 230px;
+    height: 230px;
   }
 
   .codecard {
-    padding: 17px;
+    padding: 18px;
   }
 
   .codecard pre {
-    font-size: 10px;
-  }
-
-  .socials {
-    margin-bottom: 5px;
+    font-size: 10.5px;
   }
 
   .buttons {
-    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .primary,
+  .secondary {
+    padding: 13px 18px;
+  }
+
+  .project {
+    padding: 24px;
+  }
+
+  .cta {
+    padding: 26px;
   }
 }
