@@ -1,0 +1,152 @@
+/*
+From Uiverse.io by andrew-demchenk0 - https://uiverse.io/andrew-demchenk0/honest-stingray-90
+MIT License, Copyright (c) andrew-demchenk0 (A)
+*/
+
+/*
+ * Uiverse.io sun/moon switch, recoloured for the portfolio's charcoal +
+ * accent palette. Geometry, transitions and animations are unchanged from
+ * the original; only colours and the dock-fitting scale are adapted.
+ */
+
+/* Keep the exact dock footprint of the icon toggle it replaces, so the
+   navbar width, spacing and alignment never change. */
+.dockitem.docktoggle.theme-switch-slot {
+  width: var(--dock-item);
+  padding: 0;
+  justify-content: center;
+}
+
+.switch {
+  font-size: 17px;
+  position: relative;
+  display: inline-block;
+  width: 64px;
+  height: 34px;
+
+  /* 64px * 0.5625 = 36px (the dock item size). The layout box stays the
+     original Uiverse size; only the visual is scaled to fit the dock. */
+  flex: none;
+  transform: scale(0.5625);
+  transform-origin: center center;
+}
+
+.switch .input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #171722; /* charcoal track, unchecked */
+  transition: .4s;
+  border-radius: 30px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 30px;
+  width: 30px;
+  border-radius: 20px;
+  left: 2px;
+  bottom: 2px;
+  z-index: 2;
+  background-color: #f7f0e6; /* warm off-white thumb */
+  transition: .4s;
+}
+
+.sun svg {
+  position: absolute;
+  top: 6px;
+  left: 36px;
+  z-index: 1;
+  width: 24px;
+  height: 24px;
+  fill: #ffb347; /* warm orange sun */
+}
+
+.moon svg {
+  fill: #f1d7b0; /* soft cream moon */
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  z-index: 1;
+  width: 24px;
+  height: 24px;
+}
+
+/* Original animations: continuous sun rotation and moon tilt. */
+.sun svg {
+  animation: rotate 15s linear infinite;
+}
+
+.moon svg {
+  animation: tilt 5s linear infinite;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes tilt {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(-10deg);
+  }
+
+  75% {
+    transform: rotate(10deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.input:checked + .slider {
+  background-color: var(--accent-strong); /* accent track, checked */
+}
+
+.input:checked + .slider:before {
+  transform: translateX(30px);
+}
+
+/* Inset rings stay visible inside the dock item's overflow:hidden box. */
+.input:focus + .slider {
+  box-shadow: inset 0 0 0 1px var(--accent-light);
+}
+
+/* Keyboard users get a stronger ring around the switch. */
+.input:focus-visible + .slider {
+  box-shadow: inset 0 0 0 2px var(--accent-light);
+}
+
+/* Phones use a 34px dock item (see .dock in styles.css): 64 * 0.53125 = 34. */
+@media (max-width: 600px) {
+  .switch {
+    transform: scale(0.53125);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sun svg,
+  .moon svg {
+    animation: none;
+  }
+}

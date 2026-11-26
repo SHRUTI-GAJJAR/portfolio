@@ -1,0 +1,184 @@
+/* Scoped styles for the React Bits Folder integration in the Projects section.
+   These only apply inside .rb-folder-root so the rest of the page is untouched. */
+
+.folder-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px;
+  overflow: visible;
+}
+
+.folder-cell {
+  --folder-scale: 1;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+
+  /* Room for pages that fan out above the closed folder. */
+  padding: calc(86px * var(--folder-scale)) 0 calc(26px * var(--folder-scale));
+}
+
+.folder-cell.featured {
+  grid-column: span 2;
+}
+
+.folder-caption {
+  margin: calc(22px * var(--folder-scale)) 0 0;
+
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  line-height: 1.4;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.folder-caption strong {
+  display: block;
+  margin-bottom: 4px;
+
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-transform: none;
+}
+
+/* ---------- Folder page content (real project data) ---------- */
+
+.rb-folder-root .rb-doc {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: calc(6px * var(--folder-scale));
+  height: 100%;
+  padding: calc(15px * var(--folder-scale)) calc(14px * var(--folder-scale));
+
+  color: var(--folder-paper-text);
+  font-family: inherit;
+}
+
+.rb-folder-root .rb-doc-head {
+  display: flex;
+  align-items: center;
+  gap: calc(7px * var(--folder-scale));
+  min-width: 0;
+}
+
+.rb-folder-root .rb-doc-icon {
+  flex: none;
+  color: #c2602a;
+  font-size: calc(15px * var(--folder-scale));
+  line-height: 1;
+}
+
+.rb-folder-root .rb-doc-title {
+  overflow: hidden;
+  font-size: calc(13px * var(--folder-scale));
+  font-weight: 700;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rb-folder-root .rb-doc-tag {
+  color: #6b512f;
+  font-size: calc(9px * var(--folder-scale));
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.rb-folder-root .rb-doc-desc {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 0;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+
+  font-size: calc(9px * var(--folder-scale));
+  line-height: 1.35;
+}
+
+.rb-folder-root .rb-doc-foot {
+  margin-top: auto;
+  padding-top: calc(6px * var(--folder-scale));
+
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  color: rgba(0, 0, 0, 0.5);
+  font-size: calc(8px * var(--folder-scale));
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.rb-folder-root .rb-doc-tech-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: calc(6px * var(--folder-scale));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rb-folder-root .rb-doc-tech-list li {
+  padding: calc(4px * var(--folder-scale)) calc(7px * var(--folder-scale));
+
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  border-radius: 999px;
+  color: var(--folder-paper-text);
+  font-size: calc(9px * var(--folder-scale));
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.rb-folder-root .rb-doc-link-list {
+  display: flex;
+  flex-direction: column;
+  gap: calc(10px * var(--folder-scale));
+}
+
+.rb-folder-root .rb-doc-link-list a {
+  display: flex;
+  align-items: center;
+  gap: calc(6px * var(--folder-scale));
+
+  color: #8a451c;
+  font-size: calc(10px * var(--folder-scale));
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.rb-folder-root .rb-doc-link-list a:hover {
+  color: #c2602a;
+  text-decoration: underline;
+}
+
+.rb-folder-root .rb-doc-link-list svg {
+  width: calc(13px * var(--folder-scale));
+  height: calc(13px * var(--folder-scale));
+  flex: none;
+}
+
+@media (max-width: 900px) {
+  .folder-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+
+  .folder-cell.featured {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 560px) {
+  .folder-grid {
+    gap: 18px;
+  }
+}

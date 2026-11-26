@@ -19,8 +19,15 @@
   position: relative;
   isolation: isolate;
 
-  min-height: min(830px, 100vh);
-  min-height: min(830px, 100svh);
+  /* Full-screen stage. The robot needs the whole viewport to travel through;
+     a capped/narrow hero box clips it during entry and roaming. Break out of
+     .wrap's 1120px limit and always fill at least one viewport height. */
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
+
+  min-height: 100vh;
+  min-height: 100svh;
 
   padding-top: clamp(132px, 15vh, 178px);
   padding-bottom: clamp(104px, 12vh, 136px);
@@ -1016,7 +1023,12 @@
   position: absolute;
   z-index: 6;
 
+  /* Centre the indicator at the bottom of the full-bleed hero. Using
+     left/right: 0 + auto margins avoids depending on transform. */
   left: 0;
+  right: 0;
+  width: max-content;
+  margin-inline: auto;
   bottom: 24px;
 
   display: inline-flex;
@@ -1090,7 +1102,6 @@
   }
 }
 
-
 /* =========================================================
    RESPONSIVE
    ========================================================= */
@@ -1108,7 +1119,8 @@
     grid-template-columns: minmax(0, 1fr);
     row-gap: 38px;
 
-    min-height: 0;
+    min-height: 100vh;
+    min-height: 100svh;
 
     padding-top: clamp(124px, 14vh, 152px);
     padding-bottom: 124px;
@@ -1160,7 +1172,8 @@
   .hero.hero--redesign {
     grid-template-columns: minmax(0, 1fr);
 
-    min-height: 0;
+    min-height: 100vh;
+    min-height: 100svh;
 
     padding-top: 124px;
     padding-bottom: 124px;

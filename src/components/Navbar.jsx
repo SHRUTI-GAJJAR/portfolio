@@ -5,10 +5,9 @@ import {
   House,
   Layers,
   Mail,
-  Moon,
-  Sun,
   UserRound,
 } from "lucide-react";
+import ThemeSwitch from "./ThemeSwitch";
 import { navLinks } from "../data/site";
 
 /**
@@ -158,21 +157,7 @@ export default function Navbar({ dark, onToggleTheme, active, onNavigate }) {
 
       <span className="dockdivider" aria-hidden="true" />
 
-      <button
-        type="button"
-        className="dockitem docktoggle"
-        onClick={onToggleTheme}
-        aria-label={`Switch to ${dark ? "light" : "dark"} theme`}
-        title={`Switch to ${dark ? "light" : "dark"} theme`}
-      >
-        <span className="dockicon">
-          {dark ? (
-            <Sun size={15} strokeWidth={2.6} aria-hidden="true" />
-          ) : (
-            <Moon size={15} strokeWidth={2.6} aria-hidden="true" />
-          )}
-        </span>
-      </button>
+      <ThemeSwitch dark={dark} onToggle={onToggleTheme} />
 
       {/*
         Off-screen copies of the labels let the dock measure their natural

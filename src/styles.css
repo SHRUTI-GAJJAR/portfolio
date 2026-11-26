@@ -1899,6 +1899,52 @@ em {
   background: var(--line);
 }
 
+/* Animation-only overrides: the React Bits Scroll Reveal spans inherit this
+   column's existing paragraph typography instead of the library defaults. */
+.two > div + div p.scroll-reveal {
+  margin: 0 0 20px;
+}
+
+.two > div + div p.scroll-reveal .scroll-reveal-text {
+  display: inline;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+}
+
+/* The capability rail keeps its existing look; each item only fades up once,
+   shortly after the rail itself is revealed. */
+.mini.reveal.is-visible .miniItem {
+  animation: aboutSkillIn 620ms var(--ease) both;
+  animation-delay: calc(90ms + var(--skill-index, 0) * 80ms);
+}
+
+@keyframes aboutSkillIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mini.reveal.is-visible .miniItem {
+    animation: none;
+  }
+
+  .aboutBlurText span[aria-hidden="true"] {
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
 
 /* =========================================================
    13. PROJECTS SECTION

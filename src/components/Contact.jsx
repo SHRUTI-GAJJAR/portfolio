@@ -1,4 +1,5 @@
-import { Download, Mail } from "lucide-react";
+import { Mail } from "lucide-react";
+import ResumeDownloadButton from "./ResumeDownloadButton";
 import { profile } from "../data/site";
 
 export default function Contact() {
@@ -27,10 +28,12 @@ export default function Contact() {
           <Mail />
         </a>
 
-        <a className="secondary" href={profile.resume} download>
-          Download resume
-          <Download />
-        </a>
+        <ResumeDownloadButton
+          href={profile.resume}
+          fileName="Shruti_Ujeniya_Resume-2026.pdf"
+          meta="PDF · 75 KB"
+          label="Download resume"
+        />
       </div>
     </section>
   );

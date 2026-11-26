@@ -27,30 +27,52 @@ const SECONDARY = 0xa1a1aa;
 /*
  * Animation flow, kept inside the single render-loop effect so React
  * re-renders (typewriter, scene-ready flag, scrolling) can never restart the
- * welcome. ENTERING -> GREETING (5s) -> EXPLORING -> IDLE.
+ * show. The whole performance loops forever:
+ *   ENTERING -> GREETING (5s) -> ROAMING -> EXITING -> ENTERING ...
+ * One full loop is ~20s, and the side the robot enters from rotates every
+ * cycle: right -> left -> top -> right ...
  */
 const ANIM_STATE = {
   ENTERING: "ENTERING",
   GREETING: "GREETING",
-  EXPLORING: "EXPLORING",
+  ROAMING: "ROAMING",
+  EXITING: "EXITING",
   IDLE: "IDLE",
 };
 
-/* Supported cinematic entries. The right edge is the chosen direction.
-   Change this single value to "left", "top" or "bottom" and the greeting
-   position and entry transform follow automatically. */
-const ENTRY_DIRECTION = "right"; // "left" | "right" | "top" | "bottom"
+/* The entry side changes on every loop. The robot first exits towards the
+   NEXT side in this list, so the following entrance begins at exactly the
+   same point and the loop never jumps/teleports. */
+const ENTRY_CYCLE = ["right", "left", "top"]; // "left" | "right" | "top" | "bottom"
 
-// After the welcome the robot travels across the hero: right -> left,
-// left -> right, then down and up again. x/y are fractions of the available
-// hero space (-1 .. 1), so the route adapts to every breakpoint.
-const EXPLORE_POINTS = [
-  { x: -0.86, y: 0.05, yaw: -0.2, duration: 4.4 }, // right -> left
-  { x: 0.86, y: 0.05, yaw: 0.2, duration: 4.8 }, // left -> right
-  { x: 0.62, y: -0.82, yaw: 0.12, duration: 4.6 }, // down
-  { x: 0.62, y: 0.82, yaw: -0.12, duration: 4.8 }, // up
-  { x: 0.48, y: 0, yaw: 0.05, duration: 4.0 }, // ease back to rest
+// Timings: 1.7 + 5 + 12 + 1.3 = 20 seconds between each greeting.
+const ENTER_DURATION = 1.7;
+const GREET_DURATION = 5;
+const EXIT_DURATION = 1.3;
+
+// After the wave the robot roams to the left side, back to the right side,
+// then eases back toward rest. x/y are fractions of the available hero space
+// (-1 .. 1), so the route adapts to every breakpoint.
+const ROAM_POINTS = [
+  { x: -0.86, y: 0.05, yaw: -0.2, duration: 4 }, // across to the left
+  { x: 0.86, y: 0.05, yaw: 0.2, duration: 4 }, // back to the right
+  { x: 0.48, y: 0, yaw: 0.05, duration: 4 }, // ease back toward rest
 ];
+
+/* Off-screen start/end point for a given side, derived from the measured hero
+   bounds so entrances/exits stay just outside the frame at every breakpoint. */
+function entryPointFor(direction, layout) {
+  if (direction === "left") {
+    return { x: -layout.halfW - layout.robotHalfW * 0.45, y: 0 };
+  }
+  if (direction === "right") {
+    return { x: layout.halfW + layout.robotHalfW * 0.45, y: 0 };
+  }
+  if (direction === "top") {
+    return { x: layout.greetX, y: layout.halfH + layout.robotHalfH * 0.45 };
+  }
+  return { x: layout.greetX, y: -layout.halfH - layout.robotHalfH * 0.45 }; // bottom
+}
 
 const clamp01 = (value) => Math.max(0, Math.min(1, value));
 const easeOutCubic = (p) => 1 - Math.pow(1 - p, 3);
@@ -959,8 +981,10 @@ export default function RobotMascot({ onReady, onFailure }) {
       rangeX: 2.4,
       rangeY: 1,
       maxY: 1,
-      entryX: 3.6,
-      entryY: 0,
+      halfW: 3.2,
+      halfH: 1.8,
+      robotHalfW: 0.6,
+      robotHalfH: 0.9,
       dir: 1,
       stacked: false,
     };
@@ -970,9 +994,9 @@ export default function RobotMascot({ onReady, onFailure }) {
       state: ANIM_STATE.ENTERING,
       time: 0,
       point: 0,
-      idleFromX: 0,
-      idleFromY: 0,
-      idleFromYaw: -0.12,
+      cycle: 0,
+      direction: ENTRY_CYCLE[0],
+      nextDirection: ENTRY_CYCLE[1 % ENTRY_CYCLE.length],
     };
 
     const renderFrame = (time) => {
@@ -1010,13 +1034,15 @@ export default function RobotMascot({ onReady, onFailure }) {
         bodyYaw = -0.12;
         present = 1;
       } else if (flow.state === ANIM_STATE.ENTERING) {
-        // Cinematic entrance from the right edge of the hero, with a soft
-        // arc, a gentle grow and a settling bounce as it reaches its spot.
-        const p = clamp01(flow.time / 1.7);
+        // Cinematic entrance from whichever side this cycle picked (right,
+        // left or top), with a soft arc, a gentle grow and a settling bounce
+        // as it reaches its greeting spot.
+        const from = entryPointFor(flow.direction, layout);
+        const p = clamp01(flow.time / ENTER_DURATION);
         const eased = easeOutCubic(p);
-        posX = THREE.MathUtils.lerp(layout.entryX, layout.greetX, eased);
+        posX = THREE.MathUtils.lerp(from.x, layout.greetX, eased);
         posY =
-          THREE.MathUtils.lerp(layout.entryY, 0, eased) -
+          THREE.MathUtils.lerp(from.y, 0, eased) -
           Math.sin(p * Math.PI) * 0.2;
         tilt = Math.sin(p * Math.PI) * 0.065;
         bodyYaw = THREE.MathUtils.lerp(0.3, -0.12, eased);
@@ -1026,12 +1052,12 @@ export default function RobotMascot({ onReady, onFailure }) {
           flow.time = 0;
         }
       } else if (flow.state === ANIM_STATE.GREETING) {
-        // Exactly five seconds of waving. The amplitude ramps in and out
-        // inside that window so the hand starts and stops naturally.
+        // Exactly five seconds of waving, every loop. The amplitude ramps in
+        // and out inside that window so the hand starts and stops naturally.
         const g = flow.time;
         waveAmount =
           THREE.MathUtils.smoothstep(g, 0, 0.45) *
-          (1 - THREE.MathUtils.smoothstep(g, 4.45, 5));
+          (1 - THREE.MathUtils.smoothstep(g, 4.45, GREET_DURATION));
         posY =
           Math.sin(clamp01(g / 0.75) * Math.PI * 2) *
           Math.exp(-g * 3.2) *
@@ -1039,13 +1065,13 @@ export default function RobotMascot({ onReady, onFailure }) {
           Math.sin(g * 1.3) * 0.02;
         tilt = Math.sin(clamp01(g / 0.75) * Math.PI * 2) * Math.exp(-g * 3.2) * 0.012;
         bodyYaw = 0; // faces the visitor while welcoming them
-        if (g >= 5) {
-          flow.state = ANIM_STATE.EXPLORING;
+        if (g >= GREET_DURATION) {
+          flow.state = ANIM_STATE.ROAMING;
           flow.time = 0;
           flow.point = 0;
         }
-      } else if (flow.state === ANIM_STATE.EXPLORING) {
-        const points = EXPLORE_POINTS;
+      } else if (flow.state === ANIM_STATE.ROAMING) {
+        const points = ROAM_POINTS;
         const target = points[flow.point % points.length];
         // The first leg starts where the wave ended, so there is no jump.
         const previous =
@@ -1073,27 +1099,52 @@ export default function RobotMascot({ onReady, onFailure }) {
           flow.point += 1;
           flow.time = 0;
           if (flow.point >= points.length) {
-            flow.state = ANIM_STATE.IDLE;
+            flow.state = ANIM_STATE.EXITING;
             flow.time = 0;
-            flow.idleFromX = posX;
-            flow.idleFromY = posY;
-            flow.idleFromYaw = bodyYaw;
           }
         }
-      } else {
-        // IDLE: settle back into a gentle floating rest.
-        const p = clamp01(flow.time / 1.6);
+      } else if (flow.state === ANIM_STATE.EXITING) {
+        // Leave the frame towards the side chosen for the NEXT loop. The
+        // following ENTERING starts from that exact same point, so the
+        // performance repeats forever without a visible jump.
+        const to = entryPointFor(flow.nextDirection, layout);
+        const last = ROAM_POINTS[ROAM_POINTS.length - 1];
+        const from = { x: last.x * layout.rangeX, y: last.y * layout.rangeY };
+        const p = clamp01(flow.time / EXIT_DURATION);
         const eased = easeInOutCubic(p);
-        posX = THREE.MathUtils.lerp(flow.idleFromX, layout.greetX, eased);
-        posY = THREE.MathUtils.lerp(flow.idleFromY, 0, eased) + Math.sin(t * 1.05) * 0.035;
-        bodyYaw = THREE.MathUtils.lerp(flow.idleFromYaw, -0.12, eased);
+        posX = THREE.MathUtils.lerp(from.x, to.x, eased);
+        posY =
+          THREE.MathUtils.lerp(from.y, to.y, eased) +
+          Math.sin(p * Math.PI) * 0.12;
+        bodyYaw = THREE.MathUtils.lerp(-0.12, 0.2, eased);
+        tilt = Math.sin(p * Math.PI) * -0.05;
+        scalePulse = THREE.MathUtils.lerp(1, 0.9, eased);
+        present = 1;
+        if (p >= 1) {
+          // Rotate the entry side (right -> left -> top -> ...) and restart.
+          flow.cycle += 1;
+          flow.direction = ENTRY_CYCLE[flow.cycle % ENTRY_CYCLE.length];
+          flow.nextDirection = ENTRY_CYCLE[(flow.cycle + 1) % ENTRY_CYCLE.length];
+          flow.state = ANIM_STATE.ENTERING;
+          flow.time = 0;
+          flow.point = 0;
+        }
+      } else {
+        // IDLE (only used for reduced motion): rest beside the copy.
+        posX = layout.greetX;
+        posY = Math.sin(t * 1.05) * 0.035;
+        bodyYaw = -0.12;
         tilt = Math.sin(t * 0.36) * 0.014;
         present = 1;
       }
 
       // Keep the whole robot inside the hero on every frame. During the
-      // entrance it is intentionally just outside, so skip the clamp there.
-      if (flow.state !== ANIM_STATE.ENTERING) {
+      // entrance/exit it is intentionally just outside, so skip the clamp
+      // for those two states.
+      if (
+        flow.state !== ANIM_STATE.ENTERING &&
+        flow.state !== ANIM_STATE.EXITING
+      ) {
         posX = Math.max(layout.minX, Math.min(layout.maxX, posX));
         posY = Math.max(-layout.maxY, Math.min(layout.maxY, posY));
       }
@@ -1256,7 +1307,9 @@ export default function RobotMascot({ onReady, onFailure }) {
       const robotHalfH = (BASE_H * scale) / 2;
       const rangeX = Math.max(0.2, halfW - robotHalfW - 0.1);
       const rangeY = Math.max(0.2, halfH - robotHalfH - 0.1);
-      const dir = ENTRY_DIRECTION === "left" ? -1 : 1;
+      // The robot always greets on the right, clear of the centred intro.
+      // The entry side itself rotates every loop (see ENTRY_CYCLE).
+      const dir = 1;
       const greetPx = stacked
         ? rangeX * pxPerWorld * 0.82
         : Math.min(rangeX * pxPerWorld, copyW / 2 + 26 + robotPx / 2);
@@ -1269,18 +1322,12 @@ export default function RobotMascot({ onReady, onFailure }) {
       layout.maxX = rangeX;
       layout.maxY = rangeY;
       layout.greetX = dir * (greetPx / pxPerWorld);
-      layout.entryX =
-        ENTRY_DIRECTION === "left"
-          ? -halfW - robotHalfW * 0.45
-          : ENTRY_DIRECTION === "right"
-            ? halfW + robotHalfW * 0.45
-            : layout.greetX;
-      layout.entryY =
-        ENTRY_DIRECTION === "top"
-          ? halfH + robotHalfH * 0.45
-          : ENTRY_DIRECTION === "bottom"
-            ? -halfH - robotHalfH * 0.45
-            : 0;
+      // Measured bounds used to build the off-screen entry/exit point for
+      // whichever side the current loop picked.
+      layout.halfW = halfW;
+      layout.halfH = halfH;
+      layout.robotHalfW = robotHalfW;
+      layout.robotHalfH = robotHalfH;
       layout.stacked = stacked;
 
       const firstValidLayout = !layoutValid;
