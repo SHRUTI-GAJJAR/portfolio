@@ -416,8 +416,7 @@ const SplitText = ({
         whiteSpace: 'normal',
         wordWrap: 'break-word',
         color,
-        cursor: trigger === 'click' ? 'pointer' : undefined,
-        visibility: ready ? undefined : 'hidden'
+        cursor: trigger === 'click' ? 'pointer' : undefined
       }}
     >
       {text}

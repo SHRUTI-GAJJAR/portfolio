@@ -1,6 +1,7 @@
 import { Mail } from "lucide-react";
 import ResumeDownloadButton from "./ResumeDownloadButton";
-import { profile } from "../data/site";
+import { SparkleText } from "./ui/sparkle-text";
+import { profile, socials } from "../data/site";
 
 export default function Contact() {
   return (
@@ -8,18 +9,25 @@ export default function Contact() {
       <div>
         <p className="sectionlabel">05 / CONTACT</p>
         <h2>
-          Let&apos;s build something
-          <br />
-          <em>meaningful.</em>
+          <span className="sk-root">
+            <SparkleText
+              as="span"
+              text={
+                <>
+                  Let&apos;s build something
+                  <br />
+                  <em>meaningful.</em>
+                </>
+              }
+              count={6}
+              restAfter={5000}
+            />
+          </span>
         </h2>
         <p>
           I&apos;m open to Full-Stack, MERN and Software Development internship
           opportunities.
         </p>
-
-        <a className="ctaemail" href={`mailto:${profile.email}`}>
-          {profile.email}
-        </a>
       </div>
 
       <div className="ctabtns">
@@ -27,6 +35,19 @@ export default function Contact() {
           Email me
           <Mail />
         </a>
+
+        {socials.map(({ label, href, Icon }) => (
+          <a
+            className="secondary"
+            key={label}
+            href={href}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {label}
+            <Icon />
+          </a>
+        ))}
 
         <ResumeDownloadButton
           href={profile.resume}

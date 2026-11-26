@@ -1,4 +1,6 @@
 import { aboutTags } from "../data/site";
+import { SparkleText } from "./ui/sparkle-text";
+import "./ui/about-heading.css";
 import BlurText from "./reactbits/BlurText";
 import ScrollReveal from "./reactbits/ScrollReveal";
 import SplitText from "./reactbits/SplitText";
@@ -19,9 +21,9 @@ const headingAnimation = {
   textAlign: "left",
   delay: 90,
   duration: 0.9,
-  from: { opacity: 0, y: 12 },
+  from: { y: 12 },
   to: { opacity: 1, y: 0 },
-  trigger: "view",
+  trigger: "load",
   threshold: 0.1,
   rootMargin: "-100px",
   staggerFrom: "start",
@@ -35,17 +37,29 @@ export default function About() {
       <div className="two">
         <div className="reveal">
           <h2>
-            <SplitText
-              {...headingAnimation}
-              text={HEADING_FIRST_LINE}
-              tag="span"
-            />
-            <br />
-            <SplitText
-              {...headingAnimation}
-              text={HEADING_SECOND_LINE}
-              tag="em"
-            />
+            <span className="sk-root">
+              <SparkleText
+                as="span"
+                text={
+                  <>
+                    <SplitText
+                      {...headingAnimation}
+                      text={HEADING_FIRST_LINE}
+                      tag="span"
+                    />
+                    <br />
+                    <SplitText
+                      {...headingAnimation}
+                      text={HEADING_SECOND_LINE}
+                      tag="em"
+                    />
+                  </>
+                }
+                count={6}
+                restAfter={5000}
+                gradient={false}
+              />
+            </span>
           </h2>
         </div>
 

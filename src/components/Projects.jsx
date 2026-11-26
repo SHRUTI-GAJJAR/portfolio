@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { ArrowUpRight, Github } from "lucide-react";
 import Folder from "./reactbits/Folder";
+import { SparkleText } from "./ui/sparkle-text";
 import { projects } from "../data/projects";
 import "./reactbits/folder-tailwind.css";
 import "./reactbits/folder-projects.css";
@@ -108,7 +109,18 @@ export default function Projects() {
 
       <div className="sectionhead">
         <h2>
-          Things I&apos;ve <em>built.</em>
+          <span className="sk-root">
+            <SparkleText
+              as="span"
+              text={
+                <>
+                  Things I&apos;ve <em>built.</em>
+                </>
+              }
+              count={6}
+              restAfter={5000}
+            />
+          </span>
         </h2>
         <p>
           Real projects, practical features and hands-on full-stack development.

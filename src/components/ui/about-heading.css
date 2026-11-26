@@ -1,0 +1,11 @@
+/* About heading only: readable solid text plus the lavender italic highlight.
+   SparkleText's gradient cannot paint text that GSAP splits into child word
+   elements, so this heading uses solid themed text with decorative sparkles. */
+.about .sk-root .text-zinc-950,
+.about .sk-root .dark\:text-white {
+  color: var(--text);
+}
+
+.about .sk-root em {
+  color: var(--accent-light);
+}

@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 270" width="480" height="270" role="img" aria-label="Miniature developer workspace">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#17141f"/><stop offset="1" stop-color="#0b0a11"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="50%" cy="44%" r="58%">
+      <stop offset="0" stop-color="#8b5cf6" stop-opacity="0.42"/>
+      <stop offset="0.6" stop-color="#8b5cf6" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#8b5cf6" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="faceTop" x1="0" y1="0" x2="0.85" y2="1">
+      <stop offset="0" stop-color="#45385f"/><stop offset="1" stop-color="#2b2240"/>
+    </linearGradient>
+    <linearGradient id="faceLeft" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#282038"/><stop offset="1" stop-color="#171222"/>
+    </linearGradient>
+    <linearGradient id="faceRight" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#362a50"/><stop offset="1" stop-color="#1f1830"/>
+    </linearGradient>
+    <linearGradient id="screen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#221c38"/><stop offset="1" stop-color="#0d0a18"/>
+    </linearGradient>
+    <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#c4b5fd"/><stop offset="0.5" stop-color="#8b5cf6"/><stop offset="1" stop-color="#5b3ea8"/>
+    </linearGradient>
+    <filter id="softglow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="2.4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="bigshadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="9"/>
+    </filter>
+  </defs>
+  <rect width="480" height="270" fill="url(#bg)"/>
+  <rect width="480" height="270" fill="url(#halo)"/>
+  <ellipse cx="240" cy="222" rx="148" ry="26" fill="#000" opacity="0.5" filter="url(#bigshadow)"/>
+  <g stroke-linejoin="round">
+    
+    <polygon points="240,68 364.7,140 240,212 115.3,140" fill="#1a1529" />
+    <polygon points="115.3,140 240,212 240,221 115.3,149" fill="#0d0b16" />
+    <polygon points="364.7,140 240,212 240,221 364.7,149" fill="#141022" />
+    <polygon points="240,59 361.2,129 240,199 118.8,129" fill="url(#faceTop)" />
+    <polygon points="118.8,129 240,199 240,210 118.8,140" fill="url(#faceLeft)" />
+    <polygon points="361.2,129 240,199 240,210 361.2,140" fill="url(#faceRight)" />
+    <path d="M240 68.9 L136.1 128.9" fill="none" stroke="#8b5cf6" stroke-width="0.5" stroke-linecap="round" opacity="0.16"/>
+    <path d="M257.3 78.9 L153.4 138.9" fill="none" stroke="#8b5cf6" stroke-width="0.5" stroke-linecap="round" opacity="0.16"/>
+    <path d="M274.6 88.9 L170.7 148.9" fill="none" stroke="#8b5cf6" stroke-width="0.5" stroke-linecap="round" opacity="0.16"/>
+    <path d="M292 98.9 L188 158.9" fill="none" stroke="#8b5cf6" stroke-width="0.5" stroke-linecap="round" opacity="0.16"/>
+    <path d="M309.3 108.9 L205.4 168.9" fill="none" stroke="#8b5cf6" stroke-width="0.5" stroke-linecap="round" opacity="0.16"/>
+    <path d="M326.6 118.9 L222.7 178.9" fill="none" stroke="#8b5cf6" stroke-width="0.5" stroke-linecap="round" opacity="0.16"/>
+    <path d="M343.9 128.9 L240 188.9" fill="none" stroke="#8b5cf6" stroke-width="0.5" stroke-linecap="round" opacity="0.16"/>
+    <path d="M240 68.9 L343.9 128.9" fill="none" stroke="#8b5cf6" stroke-width="0.5" stroke-linecap="round" opacity="0.16"/>
+    <path d="M222.7 78.9 L326.6 138.9" fill="none" stroke="#8b5cf6" stroke-width="0.5" stroke-linecap="round" opacity="0.16"/>
+    <path d="M205.4 88.9 L309.3 148.9" fill="none" stroke="#8b5cf6" stroke-width="0.5" stroke-linecap="round" opacity="0.16"/>
+    <path d="M188 98.9 L292 158.9" fill="none" stroke="#8b5cf6" stroke-width="0.5" stroke-linecap="round" opacity="0.16"/>
+    <path d="M170.7 108.9 L274.6 168.9" fill="none" stroke="#8b5cf6" stroke-width="0.5" stroke-linecap="round" opacity="0.16"/>
+    <path d="M153.4 118.9 L257.3 178.9" fill="none" stroke="#8b5cf6" stroke-width="0.5" stroke-linecap="round" opacity="0.16"/>
+    <path d="M136.1 128.9 L240 188.9" fill="none" stroke="#8b5cf6" stroke-width="0.5" stroke-linecap="round" opacity="0.16"/>
+    <path d="M240 59 L361.2 129" fill="none" stroke="#d8b4fe" stroke-width="1" stroke-linecap="round" opacity="0.55"/>
+    <path d="M240 59 L118.8 129" fill="none" stroke="#a78bfa" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+    <path d="M361.2 129 L240 199" fill="none" stroke="#8b5cf6" stroke-width="1" stroke-linecap="round" opacity="0.45"/>
+
+    <polygon points="212.3,82 292,128 285,132 205.4,86" fill="#4a3c6c" />
+    <polygon points="205.4,86 285,132 285,137 205.4,91" fill="#241e38" />
+    <polygon points="292,128 285,132 285,137 292,133" fill="#2e2448" />
+    <polygon points="215.8,76 220.1,78.5 215.8,81 211.4,78.5" fill="#544582" />
+    <polygon points="211.4,78.5 215.8,81 215.8,93 211.4,90.5" fill="#241e38" />
+    <polygon points="220.1,78.5 215.8,81 215.8,93 220.1,90.5" fill="#2e2448" />
+    <polygon points="214.1,45 259.1,71 259.1,97 214.1,71" fill="#191529" stroke="#6f5b9e" stroke-width="1" />
+    <polygon points="216.5,48.5 256.4,71.5 256.4,73.5 216.5,50.5" fill="#352a52" stroke="#a78bfa" stroke-width="1" opacity="0.85"/>
+    <polygon points="216.5,54.5 242.5,69.5 242.5,71.5 216.5,56.5" fill="#8b5cf6" stroke="#d8b4fe" stroke-width="1" opacity="0.7"/>
+    <polygon points="216.5,60.5 249.4,79.5 249.4,81.5 216.5,62.5" fill="#6d5b9c" stroke="#d8b4fe" stroke-width="1" opacity="0.6"/>
+    <polygon points="216.5,66.5 237.3,78.5 237.3,80.5 216.5,68.5" fill="#584681" stroke="#d8b4fe" stroke-width="1" opacity="0.5"/>
+    <polygon points="201.9,106 238.3,127 227.9,133 191.5,112" fill="#2f2748" stroke="#6f5b9e" stroke-width="0.8"/>
+    <path d="M203.6 108 L197.6 111.5" fill="none" stroke="#a78bfa" stroke-width="0.8" stroke-linecap="round" opacity="0.55"/>
+    <path d="M208 110.5 L201.9 114" fill="none" stroke="#a78bfa" stroke-width="0.8" stroke-linecap="round" opacity="0.55"/>
+    <path d="M212.3 113 L206.2 116.5" fill="none" stroke="#a78bfa" stroke-width="0.8" stroke-linecap="round" opacity="0.55"/>
+    <path d="M216.6 115.5 L210.6 119" fill="none" stroke="#a78bfa" stroke-width="0.8" stroke-linecap="round" opacity="0.55"/>
+    <path d="M220.9 118 L214.9 121.5" fill="none" stroke="#a78bfa" stroke-width="0.8" stroke-linecap="round" opacity="0.55"/>
+    <path d="M225.3 120.5 L219.2 124" fill="none" stroke="#a78bfa" stroke-width="0.8" stroke-linecap="round" opacity="0.55"/>
+    <path d="M229.6 123 L223.5 126.5" fill="none" stroke="#a78bfa" stroke-width="0.8" stroke-linecap="round" opacity="0.55"/>
+    <polygon points="292,117 309.3,127 292,137 274.6,127" fill="#493a6d" />
+    <polygon points="274.6,127 292,137 292,149 274.6,139" fill="#1f1932" />
+    <polygon points="309.3,127 292,137 292,149 309.3,139" fill="#2b2143" />
+    <polygon points="292,117 302.4,123 292,129 281.6,123" fill="#a78bfa" />
+    <polygon points="281.6,123 292,129 292,133 281.6,127" fill="#8b5cf6" />
+    <polygon points="302.4,123 292,129 292,133 302.4,127" fill="#6d4bd0" />
+    <path d="M292 119 L292 140" fill="none" stroke="#d8b4fe" stroke-width="1.2" stroke-linecap="round" opacity="0.7"/>
+    <path d="M292 140 L281.6 160" fill="none" stroke="#a78bfa" stroke-width="1.2" stroke-linecap="round" opacity="0.7"/>
+    <polygon points="278.1,150 290.2,157 278.1,164 266,157" fill="#544582" />
+    <polygon points="266,157 278.1,164 278.1,170 266,163" fill="#241e38" />
+    <polygon points="290.2,157 278.1,164 278.1,170 290.2,163" fill="#2e2448" />
+    <circle cx="278.1" cy="156" r="2.4" fill="#d8b4fe" filter="url(#softglow)"/>
+    <polygon points="214,141 227.9,149 217.5,155 203.6,147" fill="#4a3c70" />
+    <polygon points="203.6,147 217.5,155 217.5,162 203.6,154" fill="#1f1932" />
+    <polygon points="227.9,149 217.5,155 217.5,162 227.9,156" fill="#2b2143" />
+    <circle cx="215.8" cy="147" r="2" fill="#a78bfa" filter="url(#softglow)"/>
+    <path d="M215.8 147 L278.1 149" fill="none" stroke="#8b5cf6" stroke-width="1" stroke-linecap="round" opacity="0.55"/>
+    <polygon points="165.5,109 175.9,115 165.5,121 155.1,115" fill="#4a3c70" />
+    <polygon points="155.1,115 165.5,121 165.5,128 155.1,122" fill="#1f1932" />
+    <polygon points="175.9,115 165.5,121 165.5,128 175.9,122" fill="#2b2143" />
+    <polygon points="165.5,101 172.5,105 165.5,109 158.6,105" fill="#5c4a8c" />
+    <polygon points="158.6,105 165.5,109 165.5,119 158.6,115" fill="#241e38" />
+    <polygon points="172.5,105 165.5,109 165.5,119 172.5,115" fill="#2f2549" />
+    <polygon points="153.4,122 160.3,126 153.4,130 146.5,126" fill="#544582" />
+    <polygon points="146.5,126 153.4,130 153.4,133 146.5,129" fill="#1f1932" />
+    <polygon points="160.3,126 153.4,130 153.4,133 160.3,129" fill="#2b2143" />
+    <path d="M 225.29999999999998 166 L 225.29999999999998 161 A 7.8 4.5 0 0 0 240.9 161 L 240.9 166 A 7.8 4.5 0 0 1 225.29999999999998 166 Z" fill="#3d2f60"/>
+    <ellipse cx="233.1" cy="161" rx="7.8" ry="4.5" fill="#8f77d8" stroke="#d8b4fe" stroke-width="0.8"/>
+    <ellipse cx="233.1" cy="161" rx="4.8" ry="2.8" fill="#120f1c" opacity="0.7"/>
+    <path d="M 223.6 159 L 223.6 154 A 9.5 5.5 0 0 0 242.6 154 L 242.6 159 A 9.5 5.5 0 0 1 223.6 159 Z" fill="#45356c"/>
+    <ellipse cx="233.1" cy="154" rx="9.5" ry="5.5" fill="#a78bfa" stroke="#d8b4fe" stroke-width="0.8"/>
+    <ellipse cx="233.1" cy="154" rx="5.9" ry="3.4" fill="#120f1c" opacity="0.7"/>
+    <path d="M 226.2 152 L 226.2 147 A 6.9 4 0 0 0 240 147 L 240 152 A 6.9 4 0 0 1 226.2 152 Z" fill="#58458a"/>
+    <ellipse cx="233.1" cy="147" rx="6.9" ry="4" fill="#d8b4fe" stroke="#d8b4fe" stroke-width="0.8"/>
+    <ellipse cx="233.1" cy="147" rx="4.3" ry="2.5" fill="#120f1c" opacity="0.7"/>
+    <circle cx="233.1" cy="144" r="2.6" fill="#d8b4fe" filter="url(#softglow)"/>
+    <path d="M233.1 144 L278.1 155" fill="none" stroke="#a78bfa" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+    <circle cx="215.8" cy="68" r="2" fill="#d8b4fe" filter="url(#softglow)"/><circle cx="324.9" cy="127" r="2" fill="#a78bfa" filter="url(#softglow)"/>
+
+  </g>
+</svg>

@@ -1,11 +1,20 @@
-import { ArrowUpRight } from "lucide-react";
+import { SparkleText } from "./ui/sparkle-text";
+import { ProjectRevealList } from "./ui/project-reveal-list";
 import { certificates } from "../data/certificates";
+import "./ui/project-reveal-list.css";
 
-/**
- * Certifications rendered as an editorial index: title, issuer, action.
- * Hairline rows instead of cards keeps this section visually distinct from
- * the project grid above it.
- */
+/* Map the real certificates onto the Framekit list's item shape. */
+const items = certificates.map((certificate) => ({
+  id: certificate.title,
+  title: certificate.title,
+  category: `${certificate.title} · ${certificate.issuer}`,
+  year: certificate.year,
+  blurb: certificate.issuer,
+  src: certificate.preview,
+  alt: `${certificate.title} certificate issued by ${certificate.issuer}`,
+  href: certificate.file,
+}));
+
 export default function Certifications() {
   return (
     <section id="certifications" className="section wrap">
@@ -13,7 +22,18 @@ export default function Certifications() {
 
       <div className="sectionhead">
         <h2>
-          Learning that supports my <em>growth.</em>
+          <span className="sk-root">
+            <SparkleText
+              as="span"
+              text={
+                <>
+                  Learning that supports my <em>growth.</em>
+                </>
+              }
+              count={6}
+              restAfter={5000}
+            />
+          </span>
         </h2>
         <p>
           Certifications and professional training that complement my hands-on
@@ -21,28 +41,17 @@ export default function Certifications() {
         </p>
       </div>
 
-      <div className="certificategrid">
-        {certificates.map((certificate, index) => (
-          <article
-            className="certificate reveal"
-            key={certificate.title}
-            style={{ "--reveal-delay": `${index * 90}ms` }}
-          >
-            <h3>{certificate.title}</h3>
-            <p>{certificate.issuer}</p>
-
-            <a
-              className="textlink"
-              href={certificate.file}
-              target="_blank"
-              rel="noreferrer"
-            >
-              View certificate
-              <ArrowUpRight aria-hidden="true" />
-              <span className="sr-only"> — {certificate.title}</span>
-            </a>
-          </article>
-        ))}
+      {/* The component renders real PDF links; open them in a new tab. */}
+      <div
+        className="prl-root"
+        onClick={(event) => {
+          const link = event.target.closest?.("a[href]");
+          if (!link) return;
+          event.preventDefault();
+          window.open(link.href, "_blank", "noopener,noreferrer");
+        }}
+      >
+        <ProjectRevealList items={items} titleAs="h3" />
       </div>
     </section>
   );

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowUpRight, FileText, Mail } from "lucide-react";
+import { ArrowUpRight, Mail } from "lucide-react";
 import HeroVisual from "./HeroVisual";
-import { profile, socials } from "../data/site";
+import { profile } from "../data/site";
 import "../styles/hero.css";
 
 const ROLES = [profile.role, "MERN Stack Developer", "React Developer"];
@@ -73,10 +73,6 @@ export default function Hero({ onNavigate }) {
   const typedRole = useTypewriter(ROLES);
 
   const [firstName, ...familyName] = profile.name.split(" ");
-  const links = [
-    ...socials,
-    { label: "Resume", href: profile.resume, Icon: FileText },
-  ];
 
   /* Depth parallax is applied only to the 3D scene layers through CSS custom
      properties. It adds no visible pointer and does not intercept, replace or
@@ -195,17 +191,6 @@ export default function Hero({ onNavigate }) {
         </div>
 
         <div className="heroLinks reveal" style={{ "--reveal-delay": "420ms" }}>
-          <ul className="heroSocials">
-            {links.map(({ label, href, Icon }) => (
-              <li key={label}>
-                <a href={href} target="_blank" rel="noreferrer">
-                  <Icon aria-hidden="true" />
-                  {label}
-                </a>
-              </li>
-            ))}
-          </ul>
-
           <span className="heroAvailability">
             <i aria-hidden="true" />
             {profile.availability}
