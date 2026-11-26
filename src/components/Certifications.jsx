@@ -1,5 +1,11 @@
+import { ArrowUpRight } from "lucide-react";
 import { certificates } from "../data/certificates";
 
+/**
+ * Certifications rendered as an editorial index: title, issuer, action.
+ * Hairline rows instead of cards keeps this section visually distinct from
+ * the project grid above it.
+ */
 export default function Certifications() {
   return (
     <section id="certifications" className="section wrap">
@@ -16,30 +22,24 @@ export default function Certifications() {
       </div>
 
       <div className="certificategrid">
-        {certificates.map((certificate) => (
+        {certificates.map((certificate, index) => (
           <article
-            className="certificate spotlight reveal"
+            className="certificate reveal"
             key={certificate.title}
-            style={{
-              "--reveal-delay": `${certificates.indexOf(certificate) * 90}ms`,
-            }}
+            style={{ "--reveal-delay": `${index * 90}ms` }}
           >
-            <div className="certificateicon" aria-hidden="true">
-              📜
-            </div>
-
-            <div className="certificateinfo">
-              <h3>{certificate.title}</h3>
-              <p>{certificate.issuer}</p>
-            </div>
+            <h3>{certificate.title}</h3>
+            <p>{certificate.issuer}</p>
 
             <a
-              className="secondary"
+              className="textlink"
               href={certificate.file}
               target="_blank"
               rel="noreferrer"
             >
-              View Certificate →
+              View certificate
+              <ArrowUpRight aria-hidden="true" />
+              <span className="sr-only"> — {certificate.title}</span>
             </a>
           </article>
         ))}

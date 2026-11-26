@@ -1,0 +1,84 @@
+/* Scoped styling for the logo-based tech stack marquee.
+   The <section class="marquee"> wrapper and its global rules are untouched. */
+
+.marquee--logos {
+  padding: 18px 0;
+}
+
+.marquee--logos .logoloop__content {
+  gap: 10px;
+}
+
+.marquee--logos .logoloop__item {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 13px;
+
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 72%, transparent);
+
+  transition:
+    border-color 0.3s var(--ease),
+    background 0.3s var(--ease),
+    box-shadow 0.3s var(--ease);
+}
+
+.marquee--logos .logoloop__item:hover,
+.marquee--logos .logoloop__item:focus-within {
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--line));
+  background: var(--accent-soft);
+  box-shadow: 0 0 18px rgba(139, 92, 246, 0.12);
+}
+
+.marquee--logos .logoloop__node svg {
+  display: block;
+  width: 28px;
+  height: 28px;
+  opacity: 0.92;
+
+  transition: opacity 0.3s var(--ease);
+}
+
+.marquee--logos .logoloop__item:hover .logoloop__node svg,
+.marquee--logos .logoloop__item:focus-within .logoloop__node svg {
+  opacity: 1;
+}
+
+.marquee--logos .logoloop__label {
+  color: var(--text);
+  font-family: "DM Sans", sans-serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+@media (max-width: 600px) {
+  .marquee--logos {
+    padding: 14px 0;
+  }
+
+  .marquee--logos .logoloop__item {
+    padding: 6px 10px;
+  }
+
+  .marquee--logos .logoloop__content {
+    gap: 8px;
+  }
+
+  .marquee--logos .logoloop__node svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .marquee--logos .logoloop__label {
+    font-size: 11.5px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee--logos .logoloop__item,
+  .marquee--logos .logoloop__node svg {
+    transition: none;
+  }
+}

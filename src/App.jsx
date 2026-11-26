@@ -11,10 +11,10 @@ import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import { useActiveSection } from "./hooks/useActiveSection";
 import { useRevealOnScroll } from "./hooks/useRevealOnScroll";
-import { usePointerSpotlight } from "./hooks/usePointerSpotlight";
 import { useScrollProgress } from "./hooks/useScrollProgress";
 import { useTheme } from "./hooks/useTheme";
 import { marqueeItems, navLinks } from "./data/site";
+import SmokeyCursor from "./components/lightswind/smokey-cursor";
 
 const SECTION_IDS = navLinks.map((link) => link.id);
 
@@ -24,7 +24,6 @@ export default function App() {
 
   useRevealOnScroll();
   useScrollProgress();
-  usePointerSpotlight();
 
   const scrollTo = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -32,6 +31,22 @@ export default function App() {
 
   return (
     <>
+      <SmokeyCursor
+        simulationResolution={128}
+        dyeResolution={1024}
+        densityDissipation={3.5}
+        velocityDissipation={2}
+        pressure={0.1}
+        pressureIterations={20}
+        curl={3}
+        splatRadius={0.2}
+        splatForce={4000}
+        enableShading={true}
+        colorUpdateSpeed={5}
+        transparent={true}
+        intensity={0.85}
+      />
+
       <a className="skip-link" href="#home">
         Skip to content
       </a>

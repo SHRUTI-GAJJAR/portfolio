@@ -10,8 +10,8 @@
       content="Shruti Ujeniya — Full-Stack / MERN Developer building responsive web applications, REST APIs and real-world full-stack projects with React, Node.js, Express and MongoDB."
     />
     <meta name="author" content="Shruti Ujeniya" />
-    <meta name="theme-color" content="#0a0b0f" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#f7f7f9" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#111118" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f3f1f8" media="(prefers-color-scheme: light)" />
     <link rel="canonical" href="https://portfolio-alpha-amber-79.vercel.app/" />
 
     <!-- Favicons -->
@@ -46,19 +46,16 @@
     />
 
     <!--
-      Applied before first paint so a returning visitor who chose light mode
-      never sees a flash of the dark theme while React boots.
+      Applied before first paint so the dark charcoal theme is the default
+      and a returning visitor who chose light mode never sees a flash of it.
       Mirrors the logic in src/hooks/useTheme.js.
     -->
     <script>
       (function () {
         try {
           var stored = localStorage.getItem("portfolio-theme");
-          var prefersLight = window.matchMedia(
-            "(prefers-color-scheme: light)"
-          ).matches;
-          var light = stored ? stored === "light" : prefersLight;
-          document.documentElement.dataset.theme = light ? "light" : "dark";
+          document.documentElement.dataset.theme =
+            stored === "light" ? "light" : "dark";
         } catch (e) {
           document.documentElement.dataset.theme = "dark";
         }

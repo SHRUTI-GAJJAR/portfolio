@@ -29,15 +29,15 @@ export default function About() {
             opportunity where I can contribute, learn from experienced developers
             and grow as a software engineer.
           </p>
-
-          <ul className="mini">
-            {aboutTags.map((tag) => (
-              <li key={tag}>
-                <span>{tag}</span>
-              </li>
-            ))}
-          </ul>
         </div>
+
+        <ul className="mini reveal" style={{ "--reveal-delay": "180ms" }}>
+          {aboutTags.map((tag) => (
+            <li key={tag}>
+              <span>{tag}</span>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

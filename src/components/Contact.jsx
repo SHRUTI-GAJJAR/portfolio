@@ -15,6 +15,10 @@ export default function Contact() {
           I&apos;m open to Full-Stack, MERN and Software Development internship
           opportunities.
         </p>
+
+        <a className="ctaemail" href={`mailto:${profile.email}`}>
+          {profile.email}
+        </a>
       </div>
 
       <div className="ctabtns">

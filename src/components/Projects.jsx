@@ -33,7 +33,7 @@ function ProjectCard({ project, featured }) {
 
   return (
     <article
-      className={`project spotlight reveal ${featured ? "featured" : ""}`}
+      className={`project reveal ${featured ? "featured" : ""}`}
       style={{ "--reveal-delay": `${featured ? 0 : 80}ms` }}
     >
       <div className="projecttop">

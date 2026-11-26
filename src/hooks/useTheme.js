@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 const STORAGE_KEY = "portfolio-theme";
 
 /**
- * Reads the persisted theme, falling back to the OS preference.
+ * Reads the persisted theme, falling back to the dark charcoal identity.
  * Runs during the initial render so the first paint is never wrong.
  */
 function readInitialTheme() {
@@ -12,7 +12,7 @@ function readInitialTheme() {
   const stored = window.localStorage.getItem(STORAGE_KEY);
   if (stored === "dark" || stored === "light") return stored === "dark";
 
-  return window.matchMedia("(prefers-color-scheme: light)").matches === false;
+  return true;
 }
 
 /**
